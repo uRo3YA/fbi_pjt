@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block body %}
+
+<div class="con py-5 px-5" style="background-color: rgb(255,255,255)">
+    <div class="row mt-5 text-center justify-content-center">
+        <h1 class="my-5">{{ user.username }}님의 프로필</h1>
+        <p class="mb-4">이름 :
+            {{ user.full_name }}</p>
+        <p class="mb-4">이메일 :
+            {{ user.email }}</p>
+        <div class="d-flex text-start justify-content-evenly">
+            <div class="mb-4">
+                <h4 class="fw-bold">작성한 글</h4>
+                <p class="text-muted">{{ user.review_set.count }}개를 작성하였습니다.</p>
+                {% for review in user.review_set.all %}
+                <p>
+                    <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+                </p>
+                {% endfor %}
+            </div>
+            <div class="mb-4">
+                <h4 class="fw-bold">작성한 댓글</h4>
+                <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
+                {% for comment in user.comment_set.all %}
+                <p>
+                    <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">
+                        {{ comment.content }}</a>
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- buttons -->
+        {% if request.user == user %}
+        <div>
+            <a class="btn btn-primary me-3" href="{% url 'users:update' %}">수정하기</a>
+            <a class="btn btn-outline-primary" href="{% url 'users:index' %}">회원목록</a>
+        </div>
+        {% else %}
+        <div>
+            <a class="btn btn-outline-primary" href="{% url 'users:index' %}">회원목록</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}
