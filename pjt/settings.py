@@ -33,7 +33,7 @@ AUTH_USER_MODEL = "users.User"
 INSTALLED_APPS = [
     'users',
     'Restaurant',
-
+    'reviews',
 
     "django_bootstrap5",
     'django.contrib.admin',
