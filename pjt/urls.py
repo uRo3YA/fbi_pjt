@@ -20,4 +20,6 @@ urlpatterns = [
     path("", views.root, name="root"),
     path('admin/', admin.site.urls),
     path("users/", include("users.urls")),
+    path("reviews/", include("reviews.urls")),
+    path("Restaurant/", include("Restaurant.urls")),
 ]
