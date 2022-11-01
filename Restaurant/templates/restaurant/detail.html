@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block body %}
+<!-- 가게 정보 -->
+<div class="d-flex">
+    <div class="text-white ms-5">
+        <h1>{{info.name}}</h1>
+        <p class="mt-5">{{info.address}}</p>
+        <p class="mt-5">{{info.category}}</p>
+        <p class="mt-5">{{info.menu}}</p>
+    </div>
+</div>
+<!-- 리뷰 게시글 -->
+<div class="text-end my-3">
+    <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
+</div>
+
+<table class="table table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성 시간</th>
+            <th scope="col">마지막 수정 시간</th>
+            <th scope="col">작성자</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody class="table-dark">
+        {% for review in reviews %}
+        <tr onclick="location.href='/reviews/{{review.pk}}/'" style="vertical-align: middle;">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td> {{ review.title }}</td>
+            <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
+            <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
+            <td>{{ review.writer }}</td>
+            <td>
+                {% if request.user.is_authenticated %}
+                <a class="btn btn-success btn-sm" href="">수정</a>
+                <form class='m-0' action="" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                </form>
+                {% else %}
+
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_safe
 from .models import Review
 from .forms import ReviewForm, CommentForm
-
+from Restaurant.models import Restaurant
 # Create your views here.
 
 @require_safe
@@ -92,3 +92,30 @@ def like(request, pk):
         is_liked = True
     context = {'isLiked': is_liked, 'likeCount': review.like_users.count()}
     return JsonResponse(context)
+
+@login_required
+def review_create(request, pk):
+    info = Restaurant.objects.get(pk=pk)
+    if request.method == "POST":
+        # DB에 저장하는 로직
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            new = review_form.save(commit=False)
+            new.Restaurant_id = info.pk
+            new.user = request.user
+            new.save()
+            return redirect("Restaurant:detail", info.pk)
+    else:
+        review_form = ReviewForm()
+    context = {"review_form": review_form}
+    return render(request, "reviews/form.html", context=context)
+
+def review_detail(request,Restaurant_pk,review_pk):
+    info = Review.objects.get(pk=review_pk)
+    comment_form = CommentForm()
+    context = {
+        "info": info,
+        "comment_form": comment_form,
+        "comments": info.comment_set.all(),
+    }
+    return render(request, "reviews/review_detail.html", context)

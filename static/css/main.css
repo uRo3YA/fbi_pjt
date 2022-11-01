@@ -1,0 +1,45 @@
+.nav-logo-size {
+    width: 5rem;
+}
+
+.footer-size {
+    height: 5rem;
+}
+
+h2 {
+    line-height: 3;
+}
+
+.search-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 40px;
+    padding: 0px;
+    border-radius: 40px;
+    background: #e5e7e9;
+}
+
+.search-btn {
+    color: #3c2dd8;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e5e7e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+}
+
+.search-txt {
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: rgb(69, 72, 181);
+    font-size: 30px;
+    line-height: 5px;
+}
