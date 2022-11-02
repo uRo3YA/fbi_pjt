@@ -9,6 +9,9 @@
         <p class="mt-5">{{info.address}}</p>
         <p class="mt-5">{{info.category}}</p>
         <p class="mt-5">{{info.menu}}</p>
+        {% if info.image %}
+        <img src="{{info.image.url}}" alt="{{info.image}}">
+        {% endif %}
     </div>
 </div>
 <!-- 리뷰 게시글 -->
