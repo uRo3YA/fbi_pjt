@@ -15,6 +15,14 @@
 <div class="text-end my-3">
     <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
 </div>
+<!--가게 정보 수정 및 삭제-->
+<div class="text-end my-3">
+    <a href="{% url 'Restaurant:update' info.pk %}" class="btn btn-primary">가게 정보 수정</a>
+</div>
+<div class="text-end my-3">
+    <a href="{% url 'Restaurant:delete' info.pk %}" class="btn btn-primary">가게 삭제</a>
+</div>
+
 
 <table class="table table-hover text-center">
     <thead class="table-dark">

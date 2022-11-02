@@ -36,4 +36,27 @@ def detail(request, pk):
         "reviews": review,
     }
     return render(request, "Restaurant/detail.html", context)
-    
+
+#관리자 권한으로 바꿔줘야함
+@login_required
+def update(request, pk):
+    info = Restaurant.objects.get(pk=pk)
+    if request.method == "POST":
+        Restaurant_Form = RestaurantForm(request.POST, instance=info)
+        if Restaurant_Form.is_valid():
+            Restaurant_Form.save()
+            return redirect("Restaurant:detail", info.pk)
+    else:
+        Restaurant_Form = RestaurantForm(instance=info)
+    context = {
+        "Restaurant_Form": Restaurant_Form,
+    }
+    return render(request, "Restaurant/update.html", context)
+
+#관리자 권한으로 바꿔줘야함
+@login_required
+def delete(request, pk):
+    info = Restaurant.objects.get(pk=pk)
+    info.delete()
+    return redirect('Restaurant:index')
+

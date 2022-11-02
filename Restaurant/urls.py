@@ -10,5 +10,7 @@ urlpatterns = [
    #path('', views.AllListView.as_view(), name='all_list'),
    path("create/", views.create, name="create"),
    path("<int:pk>/", views.detail, name="detail"),
+   path("<int:pk>/update/", views.update, name="update"),
+   path("<int:pk>/delete/", views.delete, name="delete"),
    path('<int:pk>/create', v2.review_create, name="review_create"),
 ]

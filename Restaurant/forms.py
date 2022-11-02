@@ -33,6 +33,13 @@ class RestaurantForm(forms.ModelForm):
             'id': 'form_title',     
             'style': "width: 91%;"
         })
+        self.fields['category'].label = '분류'
+        self.fields['category'].widget.attrs.update({
+           
+            'class': 'form-control',
+            'id': 'form_title',     
+            'style': "width: 91%;"
+        })
 
     class Meta:
         model = Restaurant
