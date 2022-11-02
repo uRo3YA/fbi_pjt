@@ -7,12 +7,12 @@
 {% endif %}
 <div class="container d-flex row">
     {% for content in contents %}
-    <div class="card col-4 m-2 p-0" style="width: 18rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
+    <div class="card col-4 m-2 p-0" style="width: 20rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
         <a class="text-decoration-none">
-            {% if 'jpg' in content.img %}
-            <img src="{{ content.img }}" class="card-img-top" style="height: 400px;">
+            {% if content.image %}
+            <img src="{{ content.thumbnail.url }}" alt="{{content.image}}" class="card-img-top" style="height: 400px;">
             {% else %}
-            <img src="{% static 'logo.jpg' %}" class="card-img-top" style="height: 400px;">
+            <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" class="card-img-top" style="height: 400px;">
             {% endif %}
             <div class="card-body">
                 <p class="card-text text-center fw-bold">{{ content.name }}</p>
