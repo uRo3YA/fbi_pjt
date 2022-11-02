@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_safe
-from .models import Review
+from .models import Review,Comment
 from .forms import ReviewForm, CommentForm
 from Restaurant.models import Restaurant
 # Create your views here.
@@ -79,7 +79,12 @@ def comment_create(request, pk):
             'userName': comment.user.username
         }
         return JsonResponse(context)
-
+@login_required
+def comment_delete(request, pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if comment.user == request.user:
+        comment.delete()
+    return redirect("reviews:detail", pk)
 
 @login_required
 def like(request, pk):

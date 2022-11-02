@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 import json
 def index(request):
     contents = Restaurant.objects.all()
+    #contents = Store.objects.all()
     context = {
         "contents": contents,
     }
@@ -33,8 +34,8 @@ def create(request):
 
 def detail(request, pk):
     info = Restaurant.objects.get(pk=pk)
-    review = Review.objects.filter(Restaurant_id=info.pk)
     store= Store.objects.get(pk=pk)
+    review = Review.objects.filter(Restaurant_id=store.pk)
     storedict = {
         'lat': store.latitude,
         'lon': store.longtitude,
@@ -53,7 +54,7 @@ def detail(request, pk):
 def update(request, pk):
     info = Restaurant.objects.get(pk=pk)
     if request.method == "POST":
-        Restaurant_Form = RestaurantForm(request.POST, instance=info)
+        Restaurant_Form = RestaurantForm(request.POST,  request.FILES,instance=info)
         if Restaurant_Form.is_valid():
             Restaurant_Form.save()
             return redirect("Restaurant:detail", info.pk)
@@ -75,7 +76,7 @@ def search(request):
     result = Restaurant.objects.all().order_by('-id')
     q = request.POST.get('q', "") 
     if q:
-        result = result.filter(name__icontains=q)
+        result = result.filter(title__icontains=q)
         return render(request, 'Restaurant/search.html', {'result' : result, 'q' : q})
     
     else:
