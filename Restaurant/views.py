@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import ListView
+from django.core.paginator import Paginator
 def index(request):
     contents = Restaurant.objects.all()
     context = {
@@ -60,3 +61,14 @@ def delete(request, pk):
     info.delete()
     return redirect('Restaurant:index')
 
+def search(request):
+    result = Restaurant.objects.all().order_by('-id')
+
+    q = request.POST.get('q', "") 
+
+    if q:
+        result = result.filter(name__icontains=q)
+        return render(request, 'Restaurant/search.html', {'result' : result, 'q' : q})
+    
+    else:
+        return render(request, 'Restaurant/search.html')

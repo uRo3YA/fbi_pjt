@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'users',
     'Restaurant',
     'reviews',
+    
 
     "django_bootstrap5",
     'django.contrib.admin',

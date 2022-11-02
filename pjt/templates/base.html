@@ -40,8 +40,9 @@
                         <a class="nav-link" aria-current="page" href="{% url 'Restaurant:index' %}">맛집 리스트</a>
                     </div>
                     <div class="search-box">
-                        <form action="." method="post">
-                            <input class="search-txt" type="text" placeholder=" 맛집 단속">
+                        <form action="{% url 'Restaurant:search' %}" method="post">
+                            {% csrf_token %}
+                            <input class="search-txt" type="text" placeholder=" 맛집 단속" name="q" value="{{q}}">
                             <button class="search-btn" type="submit" maxlength="40">
                                 <i class="fas fa-search"></i>
                             </button>
