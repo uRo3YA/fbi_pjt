@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+<div class="row justify-content-center text-center">
+<div class="card col-6">
+  <div class="card-header" style="padding-bottom:8px;">
+      <strong style="font-size: 18px;"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;프로필 이미지 수정</strong>
+  </div>
+  <div class="card-body">
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form profile_form %}
+      <button type="submit" class="btn btn-outline-dark">수정하기</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

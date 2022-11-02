@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm
 from .models import User
+from .models import Profile
 
 from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model, update_session_auth_hash
@@ -22,10 +23,13 @@ def index(request):
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
+        profile_ = Profile()  
         if form.is_valid():
-            user = form.save()  # ModelForm의 save 메서드의 리턴값은 해당 모델의 인스턴스다!
-            auth_login(request, user)  # 로그인
-            return redirect("root")
+            user = form.save()
+            profile_.user = user # 프로필에 유저 추가
+            profile_.save()      # 저장
+            auth_login(request, user) 
+            return redirect("users:index")
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
@@ -34,7 +38,8 @@ def signup(request):
 
 def detail(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    context = {"user": user}
+    profile_ = user.profile_set.all()[0]
+    context = {"user": user,"profile": profile_,}
     return render(request, "users/detail.html", context)
 
 
@@ -61,14 +66,16 @@ def logout(request):
 
 @login_required
 def update(request):
+    user_ = get_user_model().objects.get(pk=request.user.pk)
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user) 
         if form.is_valid():
             form.save()
+            #profile_form.save()
             return redirect("users:detail", request.user.pk)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    context = {"form": form}
+    context = {"form": form,}
     return render(request, "users/update.html", context)
 
 
@@ -83,6 +90,7 @@ def change_password(request):
             return redirect("users:index")
     else:
         form = PasswordChangeForm(request.user)
+        
     context = {
         "form": form,
     }
@@ -94,3 +102,21 @@ def delete(request):
     request.user.delete()
     auth_logout(request)
     return redirect("root")
+
+
+
+@login_required
+def profile_update(request):
+    user_ = get_user_model().objects.get(pk=request.user.pk)
+    current_user = user_.profile_set.all()[0]
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=current_user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:detail", request.user.pk)
+    else:
+        form = ProfileForm(instance=current_user)
+    context = {
+        "profile_form": form,
+    }
+    return render(request, "users/profile_update.html", context)
