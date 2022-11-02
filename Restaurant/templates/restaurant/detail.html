@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
 
 {% load static %}
+
+{% block script %}
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ureszraal9"></script>
+{% endblock script %}
 {% block body %}
 <!-- 가게 정보 -->
-<div class="d-flex">
+<div class="d-flex justify-content-between">
     <div class="text-black ms-5">
-        <h2>{{info.name}}</h2>
-        <p class="mt-5"><b>주소</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.address}}</p>
-        <p class="mt-5"><b>종류</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.category}}</p>
+        <h2>{{store.title}}</h2>
+        <p class="mt-5"><b>주소</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{store.addr}}</p>
+        <p class="mt-5"><b>종류</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{store.category}}</p>
         <p class="mt-5"><b>메뉴</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.menu}}</p>
+        <p class="mt-5"><b>전화</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{store.tel}}</p>
+        <p class="mt-5"><b>사진</b>
+            <br>
         {% if info.image %}
         <img src="{{info.image.url}}" alt="{{info.image}}">
         {% endif %}
+        </p>
     </div>
+    <!--지도-->
+    <div class="d-flex justify-content-end mt-4">    
+        <div id="map" style="width:400px;height:400px;"></div>
+    </div> 
 </div>
 <!-- 리뷰 게시글 -->
 <div class="text-end my-3">
@@ -61,4 +73,20 @@
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+    var st = JSON.parse("{{ storeJson|escapejs }}");
+    var mapOptions = {
+        center: new naver.maps.LatLng(st['lat'], st['lon']),
+        zoom: 16
+    };
+    
+    var map = new naver.maps.Map('map', mapOptions);
+ 
+    var marker = new naver.maps.Marker({
+    position: new naver.maps.LatLng(st['lat'], st['lon']),
+    map: map
+    });
+
+    </script>
 {% endblock %}

@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect
 from .models import Restaurant
-from reviews.models import Review 
+from reviews.models import Review
+from test_food.models import Store 
 from .forms import RestaurantForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+import json
 def index(request):
     contents = Restaurant.objects.all()
     context = {
@@ -32,9 +34,17 @@ def create(request):
 def detail(request, pk):
     info = Restaurant.objects.get(pk=pk)
     review = Review.objects.filter(Restaurant_id=info.pk)
+    store= Store.objects.get(pk=pk)
+    storedict = {
+        'lat': store.latitude,
+        'lon': store.longtitude,
+    }
+    storeJson = json.dumps(storedict)
     context = {
         "info": info,
         "reviews": review,
+        "store":store,
+        'storeJson': storeJson
     }
     return render(request, "Restaurant/detail.html", context)
 
@@ -63,12 +73,13 @@ def delete(request, pk):
 
 def search(request):
     result = Restaurant.objects.all().order_by('-id')
-
     q = request.POST.get('q', "") 
-
     if q:
         result = result.filter(name__icontains=q)
         return render(request, 'Restaurant/search.html', {'result' : result, 'q' : q})
     
     else:
         return render(request, 'Restaurant/search.html')
+
+def map(request):
+    return render(request, 'Restaurant/map.html')
