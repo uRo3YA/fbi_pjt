@@ -19,6 +19,7 @@ h2 {
     padding: 0px;
     border-radius: 40px;
     background: #e5e7e9;
+    box-shadow: 1px 1px 0 1px skyblue;
 }
 
 .search-btn {
@@ -42,4 +43,49 @@ h2 {
     color: rgb(69, 72, 181);
     font-size: 30px;
     line-height: 5px;
+}
+
+.rsttop-header__download {
+    color: #595960;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    background: transparent;
+    overflow-wrap: break-word;
+    position: absolute;
+    bottom: 20px;
+    left: 800px;
+}
+
+.rsttop-header__download-list {
+    color: #595960;
+    overflow-wrap: break-word;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    background: transparent;
+    list-style: none;
+    display: flex;
+    width: 317px;
+    justify-content: space-around;
+}
+
+.rsttop-header__download-target js-analytics {
+    overflow-wrap: break-word;
+    list-style: inherit;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    background: transparent;
+    color: #06c;
+    text-decoration: none;
+    display: block;
 }
