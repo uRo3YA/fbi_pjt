@@ -21,6 +21,7 @@
 {% endif %}
 <hr>
 <p>{{ review.content }} </p>
+<a href="{% url 'reviews:test_detail' review.pk %}">테스트페이지</a>
 {% if review.image %}
   <img src="{{ review.image.url }}" alt="{{ review.image }}" width="400" height="300">
 {% endif %}

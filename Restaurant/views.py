@@ -34,17 +34,17 @@ def create(request):
 
 def detail(request, pk):
     info = Restaurant.objects.get(pk=pk)
-    store= Store.objects.get(pk=pk)
-    review = Review.objects.filter(Restaurant_id=store.pk)
+    #store= Store.objects.get(pk=pk)
+    review = Review.objects.filter(Restaurant_id=info.pk)
     storedict = {
-        'lat': store.latitude,
-        'lon': store.longtitude,
+        'lat': info.latitude,
+        'lon': info.longtitude,
     }
     storeJson = json.dumps(storedict)
     context = {
         "info": info,
         "reviews": review,
-        "store":store,
+        "store":info,
         'storeJson': storeJson
     }
     return render(request, "Restaurant/detail.html", context)

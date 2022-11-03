@@ -25,6 +25,7 @@ class Restaurant(models.Model):
         format="JPEG",
         options={"quality": 60},
     )
+    imgurl=models.TextField()
     def delete(self, *args, **kargs):
         if self.image:
             os.remove(os.path.join(settings.MEDIA_ROOT, self.image.path))
