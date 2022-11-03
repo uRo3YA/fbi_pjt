@@ -34,13 +34,13 @@
             <div class="collapse navbar-collapse  justify-content-between " id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <div class="navbar-nav fw-bold">
-                        <a class="nav-link" aria-current="page" href="{% url 'users:index' %}">회원정보</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'users:index' %}">요원 목록</a>
                     </div>
                     <div class="navbar-nav fw-bold">
-                        <a class="nav-link" aria-current="page" href="">카테고리</a>
+                        <a class="nav-link" aria-current="page" href="">수사 목록</a>
                     </div>
                     <div class="navbar-nav fw-bold">
-                        <a class="nav-link" aria-current="page" href="{% url 'Restaurant:index' %}">맛집 리스트</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'Restaurant:index' %}">수배 리스트</a>
                     </div>
                     <div class="search-box">
                         <form action="{% url 'Restaurant:search' %}" method="post">
@@ -73,15 +73,16 @@
                 </div>
             </div>
         </div>
-        </div>
 
     </nav>
 
-    <div class="container">
+
+    <div class="content">
         {% block body %}{% endblock body %}
     </div>
     {% bootstrap_javascript %}
     <footer class="fixed-bottom text-center bg-white">© 2022 Food Box Information, PJT by 9조.</footer>
+
 </body>
 
 </html>
