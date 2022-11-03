@@ -27,7 +27,7 @@ class Review(models.Model):
     Restaurant= models.ForeignKey('Restaurant.Restaurant', on_delete=models.CASCADE)
                             
 class Comment(models.Model):
-    # post = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name='게시글')
+    # post = models.ForeignKey(Free, on_delete=models.CASCADE, verbose_name='게시글')
     # writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='댓글작성자')
     # # writer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, verbose_name='댓글작성자')
     # # writer = models.CharField(max_length=17, null=True, verbose_name='댓글작성자')
@@ -35,10 +35,12 @@ class Comment(models.Model):
     # created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
     # deleted = models.BooleanField(default=False, verbose_name='삭제여부')
     # reply = models.IntegerField(verbose_name='답글위치', default=0)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name='댓글내용')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
+    deleted = models.BooleanField(default=False, verbose_name='삭제여부')
+    reply = models.IntegerField(verbose_name='답글위치', default=0)
     def __str__(self):
         return self.content
 

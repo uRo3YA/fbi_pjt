@@ -6,6 +6,9 @@ from django.views.decorators.http import require_POST, require_safe
 from .models import Review,Comment
 from .forms import ReviewForm, CommentForm
 from Restaurant.models import Restaurant
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 # Create your views here.
 
 @require_safe
@@ -124,3 +127,97 @@ def review_detail(request,Restaurant_pk,review_pk):
         "comments": info.comment_set.all(),
     }
     return render(request, "reviews/review_detail.html", context)
+
+def detail_view(request, pk):
+    info = get_object_or_404(Review, pk=pk)
+    # session_cookie = request.session["user_id"]
+    # cookie_name = f"free_hits:{session_cookie}"
+    #cookie_name = 1
+    comment = Comment.objects.filter(review_id=pk).order_by("created")
+    # comment_count = comment.count()
+    comment_count = comment.exclude(deleted=True).count()
+    reply = comment.exclude(reply="0")
+
+    if request.user == info.user:
+        info_auth = True
+    else:
+        info_auth = False
+
+    context = {
+        "info": info,
+        "info_auth": info_auth,
+        "comments": comment,
+        "comment_count": comment_count,
+        "replys": reply,
+    }
+    # response = render(request, "reviews/test_detail.html", context)
+
+    # if request.COOKIES.get(cookie_name) is not None:
+    #     cookies = request.COOKIES.get(cookie_name)
+    #     cookies_list = cookies.split("|")
+    #     if str(pk) not in cookies_list:
+    #         response.set_cookie(cookie_name, cookies + f"|{pk}", expires=None)
+    #         info.hits += 1
+    #         info.save()
+    #         return response
+    # else:
+    #     response.set_cookie(cookie_name, pk, expires=None)
+    #     #free.hits += 1
+    #     info.save()
+    #     return response
+    return render(request, "reviews/test_detail.html", context)
+
+
+def comment_write_view(request, pk):
+    review = get_object_or_404(Review, id=pk)
+    user = request.POST.get("user")
+    content = request.POST.get("content")
+    reply = request.POST.get("reply")
+    if content:
+        comment = Comment.objects.create(
+            review=review, content=content, user=request.user, reply=reply
+        )
+        # comment_count = Comment.objects.filter(post=pk).count()
+        comment_count = Comment.objects.filter(review=pk).exclude(deleted=True).count()
+        review.comments = comment_count
+        review.save()
+        data = {
+            "user": user,
+            "content": content,
+            "created_at": "방금 전",
+            "comment_count": comment_count,
+            "comment_id": comment.id,
+        }
+        if request.user == review.user:
+            data["self_comment"] = "(글쓴이)"
+
+        return HttpResponse(
+            json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json"
+        )
+
+def comment_write_test_view(request, pk):
+    review = get_object_or_404(Review, id=pk)
+    user = request.POST.get("user")
+    content = request.POST.get("content")
+    reply = request.POST.get("reply")
+    if content:
+        comment = Comment.objects.create(
+            review=review, content=content, user=request.user, reply=reply
+        )
+        # comment_count = Comment.objects.filter(post=pk).count()
+        comment_count = Comment.objects.filter(review=pk).exclude(deleted=True).count()
+        review.comments = comment_count
+        review.save()
+        data = {
+            "user": user,
+            "content": content,
+            "created_at": "방금 전",
+            "comment_count": comment_count,
+            "comment_id": comment.id,
+        }
+        if request.user == review.user:
+            data["self_comment"] = "(글쓴이)"
+
+        return HttpResponse(
+            json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json"
+        )

@@ -20,5 +20,9 @@ urlpatterns = [
    
    path("<int:pk>/create/", views.review_create, name="review_create"),
    path("<int:pk>/detail/<int:review_pk>", views.review_detail, name="review_create"),
+   path('<int:pk>/comment/write/', views.comment_write_view, name='comment_write'),
+
+   path('<int:pk>/detail', views.detail_view, name='test_detail'),
+   path('<int:pk>/detail/comment/write/', views.comment_write_test_view, name='comment_write_test'),
 ]
 
