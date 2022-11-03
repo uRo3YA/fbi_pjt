@@ -48,6 +48,7 @@
                             <input class="search-txt" type="text" placeholder=" 맛집 단속" size="20" name="q" value="{{q}}">
                             <button class="search-btn" type="submit" maxlength="50">
                                 <i class="fas fa-search"></i>
+
                             </button>
                         </form>
                     </div>
@@ -77,10 +78,10 @@
 
     </nav>
 
-    <div class="container">
+    <header>
         {% block body %}{% endblock body %}
-    </div>
-    {% bootstrap_javascript %}
+        {% bootstrap_javascript %}
+    </header>
 </body>
 
 </html>

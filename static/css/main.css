@@ -14,7 +14,7 @@ h2 {
     position: absolute;
     top: 55%;
     left: 50%;
-    
+
     transform: translate(-50%, -50%);
     height: 30px;
     padding: 0px;
@@ -90,4 +90,9 @@ h2 {
     color: #06c;
     text-decoration: none;
     display: block;
+}
+
+.container_fluid {
+    height: fit-content;
+    object-fit: cover;
 }
