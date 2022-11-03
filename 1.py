@@ -61,25 +61,25 @@ def add_data():
         tmp = data
         # 만들어진 dic를 리스트에 저장
         result.append(tmp)
-
+    print(result)
     # DB에 저장
-    for item in result:
-        # Store(
-        # #id=(item["id"]),
-        # category=item["cat"],
-        # title=item["title"],
-        # addr=item["addr"],
-        # longtitude=item["longtitude"],
-        # latitude=item["latitude"],
-        # tel=item["tel"]).save(),
-        Restaurant(
-        #id=(item["id"]),
-        category=item["cat"],
-        title=item["title"],
-        addr=item["addr"],
-        longtitude=item["longtitude"],
-        latitude=item["latitude"],
-        tel=item["tel"]).save()
+    # for item in result:
+    #     # Store(
+    #     # #id=(item["id"]),
+    #     # category=item["cat"],
+    #     # title=item["title"],
+    #     # addr=item["addr"],
+    #     # longtitude=item["longtitude"],
+    #     # latitude=item["latitude"],
+    #     # tel=item["tel"]).save(),
+    #     Restaurant(
+    #     #id=(item["id"]),
+    #     category=item["cat"],
+    #     title=item["title"],
+    #     addr=item["addr"],
+    #     longtitude=item["longtitude"],
+    #     latitude=item["latitude"],
+    #     tel=item["tel"]).save()
 
 
     return result
