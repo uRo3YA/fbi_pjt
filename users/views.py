@@ -3,7 +3,7 @@ from django.contrib import messages
 from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm
 from .models import User
 from .models import Profile
-
+from Restaurant.models import Restaurant
 from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model, update_session_auth_hash
 
@@ -37,11 +37,29 @@ def signup(request):
 
 
 def detail(request, pk):
+    # print(a)
     user = get_user_model().objects.get(pk=pk)
     profile_ = user.profile_set.all()[0]
-    context = {"user": user,"profile": profile_,}
+    a=(user.user_wishlist.all())
+    #print(a.title)
+    context = {
+        "user": user,
+        "profile": profile_,
+        'user_wishlist': user.user_wishlist.all(),
+        }
     return render(request, "users/detail.html", context)
 
+def wishlist(request, pk):
+    user = get_user_model().objects.get(pk=pk)
+    profile_ = user.profile_set.all()[0]
+    #a=(user.user_wishlist.all())
+    #print(a.title)
+    context = {
+        "user": user,
+        "profile": profile_,
+        'user_wishlist': user.user_wishlist.all(),
+        }
+    return render(request, "users/wishlist.html", context)
 
 def login(request):
     if request.method == "POST":
@@ -120,3 +138,23 @@ def profile_update(request):
         "profile_form": form,
     }
     return render(request, "users/profile_update.html", context)
+
+# def follow(request, pk):
+#   user = get_user_model().objects.get(pk=pk)
+
+#   if request.user != user:
+#     if request.user not in user.wished_users.all():
+#       user.wished_users.add(request.user)
+#       is_following = True
+#     else:
+#       user.wished_users.remove(request.user)
+#       is_following = False
+
+#   data = {
+#     'isFollowing': is_following,
+#     'followers': user.followers.all().count(),
+#     'followings': user.followings.all().count(),
+#   }
+
+#   return JsonResponse(data)
+        

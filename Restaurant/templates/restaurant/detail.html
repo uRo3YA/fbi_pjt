@@ -10,12 +10,23 @@
 <div class="d-flex justify-content-between">
     <div class="text-black ms-5">
         <h2>{{info.title}}</h2>
+         <!--위시리스트-->
+        {% if request.user.is_authenticated %}
+            {% if request.user in info.wishlist.all %}
+                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star-fill"></i>
+            {% else %}
+                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
+            {% endif %}
+        {% endif %}
+        <span id="wish-count">{{ info.wishlist.count }}</span>
         <p class="mt-5"><b>주소</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.addr}}</p>
         <p class="mt-5"><b>종류</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.category}}</p>
-        <p class="mt-5"><b>메뉴</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.menu}}</p>
+        <p class="mt-5"><b>설명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br>
+            {{info.description |linebreaksbr}}</p>
         <p class="mt-5"><b>전화</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.tel}}</p>
         <p class="mt-5"><b>사진</b>
-            <br>
+        <br>
         {% if info.image %}
         <img src="{{info.image.url}}" alt="{{info.image}}">
         {% endif %}
@@ -25,6 +36,7 @@
     <div class="d-flex justify-content-end mt-4">    
         <div id="map" style="width:400px;height:400px;"></div>
     </div> 
+   
 </div>
 <!-- 리뷰 게시글 -->
 <div class="text-end my-3">
@@ -32,7 +44,7 @@
 </div>
 <!--가게 정보 수정 및 삭제-->
 <div class="text-end my-3">
-    <a href="{% url 'Restaurant:update' info.pk %}" class="btn btn-primary">가게 정보 수정</a>
+    <a href="" class="btn btn-primary">가게 정보 수정(지오태그 미구현)</a>
 </div>
 <div class="text-end my-3">
     <a href="{% url 'Restaurant:delete' info.pk %}" class="btn btn-primary">가게 삭제</a>
@@ -87,6 +99,34 @@
     position: new naver.maps.LatLng(st['lat'], st['lon']),
     map: map
     });
-
-    </script>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  // (1) 좋아요 버튼
+  const likeBtn = document.querySelector('#wish-btn')
+  // (2) 좋아요 버튼을 클릭하면, 함수 실행
+  likeBtn.addEventListener('click', function (event) {
+    // 서버로 비동기 요청을 하고 싶음
+    console.log(event.target.dataset)
+    axios({
+      method: 'get',
+      url: `/Restaurant/${event.target.dataset.infoId}/wishlist/`
+    })
+    .then(response => {
+      console.log(response)
+      console.log(response.data)
+      // event.target.classList.toggle('bi-heart')
+      // event.target.classList.toggle('bi-heart-fill')
+      if (response.data.isLiked === true) {
+        event.target.classList.add('bi-bookmark-star-fill')
+        event.target.classList.remove('bi-bookmark-star')
+      } else {
+        event.target.classList.add('bi-bookmark-star')
+        event.target.classList.remove('bi-bookmark-star-fill')
+      }
+      const likeCount = document.querySelector('#wish-count')
+      likeCount.innerText = response.data.likeCount
+    })
+  })
+</script>
 {% endblock %}

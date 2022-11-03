@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block body %}
+
+<div class="con py-5 px-5" style="background-color: rgb(255,255,255)">
+    <div class="row mt-5 text-center justify-content-center">
+        <h1 class="my-5">{{ user.username }}님의 프로필</h1>
+        <div>
+            {% if profile.image %}
+            <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px;">
+            {% else %}
+            <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="" style="width: 100px; height: 100px;">
+            {% endif %}
+            <div>
+            
+        </div>
+        </div>
+        <p class="mb-4">이름 :
+            {{ user.full_name }}</p>
+        <p class="mb-4">이메일 :
+            {{ user.email }}</p>
+        <div class="d-flex text-start justify-content-evenly">
+                    <div class="mb-4">
+                
+                <h4 class="fw-bold">위시리스트</h4>
+
+                <p class="text-muted">{{ user.user_wishlist.count}}개가  있습니다.</p>
+                {% for  a in user.user_wishlist.all %}
+                <p>
+                    <a class="text-decoration-none" href="{% url  'Restaurant:detail' a.id %}">
+                     {{ a.title }}
+                    </a>
+                </p>
+                {% endfor %}
+
+            </div>
+        </div>
+        <!-- buttons -->
+        <div>
+            <a class="btn btn-outline-primary" href="{% url 'users:detail' user.pk %}">뒤로가기</a>
+        </div>
+
+
+    </div>
+</div>
+{% endblock body %}

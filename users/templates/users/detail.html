@@ -40,6 +40,13 @@
                 </p>
                 {% endfor %}
             </div>
+            <div class="mb-4">
+                <a  class="text-decoration-none" href="{% url 'users:wishlist_list' user.id %}">
+                <h4 class="fw-bold">위시리스트</h4>
+                </a>
+                <p class="text-muted">{{ user.user_wishlist.count}}개가  있습니다.</p>
+
+            </div>
         </div>
         <!-- buttons -->
         {% if request.user == user %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
-
+from Restaurant.models import Restaurant
 # Create your models here.
 class User(AbstractUser):
     # description = models.TextField(blank=True)
@@ -16,6 +16,7 @@ class User(AbstractUser):
     #     format="JPEG",
     #     options={"quality": 80},
     # )
+    user_wishlist = models.ManyToManyField(Restaurant, related_name='user_wishlist')
     @property
     def full_name(self):
         return f'{self.last_name}{self.first_name}'
@@ -31,3 +32,6 @@ class Profile(models.Model):
         options={"quality": 50},
     )
 
+# class Wishlist(models.Model):
+#     user_id    = models.ForeignKey(User, on_delete = models.CASCADE)
+#     restaurant_id = models.ForeignKey(Restaurant, on_delete = models.CASCADE)

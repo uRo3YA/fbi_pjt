@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Restaurant
 from reviews.models import Review
-from test_food.models import Store 
+from users.models import User 
 from .forms import RestaurantForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -9,6 +9,8 @@ from django.db.models import Q
 from django.views.generic import ListView
 from django.core.paginator import Paginator
 import json
+from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 def index(request):
     contents = Restaurant.objects.all()
     #contents = Store.objects.all()
@@ -84,3 +86,20 @@ def search(request):
 
 def map(request):
     return render(request, 'Restaurant/map.html')
+
+def wishlist(request, pk):
+    #user = request.user
+    #user = get_user_model().objects.get(pk=request.user)
+    #print(request.user.id)
+    person=User.objects.get(pk=request.user.id)
+    info =get_object_or_404( Restaurant, pk=pk)
+    if request.user in info.wishlist.all(): 
+        info.wishlist.remove(request.user)
+        person.user_wishlist.remove(info.pk)
+        is_liked = False
+    else:
+        info.wishlist.add(request.user)
+        person.user_wishlist.add(info.pk)
+        is_liked = True
+    context = {'isLiked': is_liked, 'likeCount': info.wishlist.count()}
+    return JsonResponse(context)

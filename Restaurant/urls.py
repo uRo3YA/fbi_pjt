@@ -14,5 +14,6 @@ urlpatterns = [
    path("<int:pk>/delete/", views.delete, name="delete"),
    path('<int:pk>/create', v2.review_create, name="review_create"),
    path('search', views.search, name='search'),
+   path('<int:pk>/wishlist/', views.wishlist),
    path('map', views.map, name='map')
 ]
