@@ -89,12 +89,14 @@ def update(request):
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user) 
         if form.is_valid():
             form.save()
-            #profile_form.save()
+            messages.success(request, "회원정보가 수정되었습니다.")
             return redirect("users:detail", request.user.pk)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    context = {"form": form,}
+    context = {"form": form, "data":user_}
     return render(request, "users/update.html", context)
+
+
 
 
 @login_required

@@ -27,8 +27,13 @@
         <p class="mt-5"><b>전화</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.tel}}</p>
         <p class="mt-5"><b>사진</b>
         <br>
+        {% if info.imgurl %}
+        <img src="{{ info.imgurl}}" alt="{{info.imgurl}}"  style="height: 200px;">
+        {% else %}
+        <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" style="height: 200px;">
+        {% endif %}
         {% if info.image %}
-        <img src="{{info.image.url}}" alt="{{info.image}}">
+            <img src="{{info.image.url}}" alt="{{info.image}}">
         {% endif %}
         </p>
     </div>
@@ -42,6 +47,8 @@
 <div class="text-end my-3">
     <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
 </div>
+<!--슈퍼 유저인지 확인-->
+{% if request.user.is_superuser %}
 <!--가게 정보 수정 및 삭제-->
 <div class="text-end my-3">
     <a href="" class="btn btn-primary">가게 정보 수정(지오태그 미구현)</a>
@@ -49,6 +56,9 @@
 <div class="text-end my-3">
     <a href="{% url 'Restaurant:delete' info.pk %}" class="btn btn-primary">가게 삭제</a>
 </div>
+{% else %}
+
+{% endif %}
 
 
 <table class="table table-hover text-center">
@@ -102,9 +112,9 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  // (1) 좋아요 버튼
+  // (1) 위시리스트 버튼
   const likeBtn = document.querySelector('#wish-btn')
-  // (2) 좋아요 버튼을 클릭하면, 함수 실행
+  // (2) 위시리스트 버튼을 클릭하면, 함수 실행
   likeBtn.addEventListener('click', function (event) {
     // 서버로 비동기 요청을 하고 싶음
     console.log(event.target.dataset)

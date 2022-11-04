@@ -2,18 +2,39 @@
 {% load django_bootstrap5 %}
 
 {% block body %}
-<div class="row mt-5">
-    <h1 class="text-center mb-5">프로필 업데이트</h1>
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-outline-primary me-2" href="{%  url 'users:change_password' %}">비밀번호 변경</a>
-        <a class="btn btn-outline-danger" href="{%  url 'users:delete' %}">회원탈퇴</a>
-        <a href="{% url 'users:profile_update' %}" class='btn btn-outline-success ms-5'>프로필 수정</a>
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
+            <div class="row justify-content-center text-center">
+                <div class="card col-6">
+                
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-edit"></i>&nbsp;&nbsp;내 정보수정</strong>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="POST" class="my-3">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                           
+                            {% bootstrap_button button_type="submit" button_class="btn-primary" content="변경완료" %}
+                        </form>
+                        <div  class="justify-content-end">
+                            <a class="btn btn-outline-primary me-2" href="{%  url 'users:change_password' %}">비밀번호 변경</a>
+                            <a class="btn btn-outline-danger ms-5" href="{%  url 'users:delete' %}">회원탈퇴</a>
+                            <a href="{% url 'users:profile_update' %}" class='btn btn-outline-success ms-5'>프로필 이미지 수정</a>
+                            </div>
+                        <script type="text/javascript">
+                            function maxLengthCheck(object) {
+                                if (object.value.length > object.maxLength) {
+                                    object.value = object.value.slice(0, object.maxLength);
+                                }
+                            }
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <form action="" method="POST" class="my-3">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-       
-        {% bootstrap_button button_type="submit" button_class="btn-primary" content="변경완료" %}
-    </form>
 </div>
 {% endblock body %}
