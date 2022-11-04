@@ -22,7 +22,9 @@ class User(AbstractUser):
         max_length=128, verbose_name="이메일", null=True
     )
     user_wishlist = models.ManyToManyField(Restaurant, related_name='user_wishlist')
-
+    followings = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers"
+    )
     
     @property
     def full_name(self):
