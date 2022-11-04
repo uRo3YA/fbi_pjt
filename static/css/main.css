@@ -110,7 +110,7 @@ h2 {
 }
 
 .imgBoxDiv {
-    width: 318px;
+    /* width: 318px; */
     height: 300px;
     cursor: pointer;
     overflow: hidden;
