@@ -5,7 +5,7 @@
 
 <div class="con py-5 px-5" style="background-color: rgb(255,255,255)">
     <div class="row mt-5 text-center justify-content-center">
-        <h1 class="my-5">{{ user.username }}님의 프로필</h1>
+        <h2 class="my-5">{{ user.username }}님의 프로필</h2>
         <div>
             {% if profile.image %}
             <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px;">
@@ -13,9 +13,9 @@
             <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="" style="width: 100px; height: 100px;">
             {% endif %}
             <div>
-            <a href="{% url 'users:profile_update' %}" class='btn btn-outline-success'>프로필 이미지 수정</a>
+            <br><a href="{% url 'users:profile_update' %}" class='btn btn-outline-success'>프로필 이미지 수정</a>
         </div>
-        </div>
+        <br></div>
         <p class="mb-4">이름 :
             {{ user.full_name }}</p>
         <p class="mb-4">이메일 :
