@@ -7,6 +7,7 @@
 {% endif %}
 <div class="container d-flex row">
     {% for content in contents %}
+
     <div class="card col-4 m-5 p-0" style="width: 20rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
         <div class="imgBoxDiv">
             <a class="text-decoration-none">
@@ -26,6 +27,7 @@
                 </div>
             </a>
         </div>
+
     </div>
     {% endfor %}
 </div>
