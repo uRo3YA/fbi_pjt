@@ -37,6 +37,15 @@ def create(request):
     }
     return render(request, 'reviews/form.html', context=context)
 
+@login_required
+def delete(request, pk):
+    info = Review.objects.get(pk=pk)
+    res_id = info.Restaurant_id
+    if info.user == request.user:
+        info.delete()
+    return redirect("Restaurant:detail", res_id)
+
+
 def detail(request, pk):
     review = get_object_or_404(Review, pk=pk)
     comment_form = CommentForm()

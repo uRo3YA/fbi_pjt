@@ -69,7 +69,7 @@
             <th scope="col">작성 시간</th>
             <th scope="col">마지막 수정 시간</th>
             <th scope="col">작성자</th>
-            <th scope="col"></th>
+            <th scope="col">추천</th>
         </tr>
     </thead>
     <tbody class="table-dark">
@@ -79,17 +79,8 @@
             <td> {{ review.title }}</td>
             <td>{{ review.created_at|date:'Y-m-d H:i' }}</td>
             <td>{{ review.updated_at|date:'Y-m-d H:i' }}</td>
-            <td>{{ review.writer }}</td>
-            <td>
-                {% if request.user.is_authenticated %}
-                <a class="btn btn-success btn-sm" href="{% url 'reviews:update' review.pk %}">수정</a>
-                <form class='m-0' action="" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-                </form>
-                {% else %}
-
-                {% endif %}
+            <td>{{ review.user }}</td>
+            <td>{{ review.like_users.count }}
             </td>
         </tr>
         {% endfor %}
