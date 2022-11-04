@@ -20,8 +20,20 @@
             {{ user.full_name }}</p>
         <p class="mb-4">이메일 :
             {{ user.email }}</p>
-        <p class="mb-4">팔로잉 목록 :
-            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#following_modal">여기엔 팔로잉 숫자</a>
+        <p class="mb-4">
+            {% if request.user != user %}
+            <a href="{% url 'users:follow' user.pk %}">
+                {% if request.user in user.followers.all %}
+                    <button type="button" class="btn btn-primary btn-sm">팔로우 취소</button>
+                {% else %}
+                    <button type="button" class="btn btn-primary btn-sm">팔로우</button>
+                {% endif %}
+            </a>
+            {% endif %}
+        </p>
+        
+        <p class="mb-4">팔로워 목록 :
+            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#following_modal">{{user.followers.all.count}}</a>
         </p>
         <div id="following_modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -33,13 +45,20 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>여기에 팔로잉 목록</p>
+                        {% for  a in user.followers.all %}
+                        <p>
+                            <a class="text-decoration-none" href="{% url  'users:detail' a.id %}">
+                                {{ a.full_name }}</a>
+                        </p>
+                        {% endfor %}
                     </div>
+                  
                 </div>
+
             </div>
         </div>
-        <p class="mb-4">팔로워 목록 :
-            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#follower_modal">여기엔 팔로워 숫자</a>
+        <p class="mb-4">팔로잉 목록 :
+            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#follower_modal">{{follower_list.count}}</a>
         </p>
         <div id="follower_modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -51,7 +70,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>여기에 팔로워 목록</p>
+                        {% for  b in follower_list %}
+                        <p>
+                            <a class="text-decoration-none" href="{% url  'users:detail' b.id %}">
+                                {{ b.full_name }}</a>
+                        </p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -98,3 +122,33 @@
     </div>
 </div>
 {% endblock body %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const followBtn = document.querySelector('#follow-btn')
+  
+    followBtn.addEventListener('click', function(event) {
+      axios({
+        method: 'get',
+        url: `/users/${event.target.dataset.userId}/follow/`
+      })
+      .then(response => {
+        console.log(response.data)
+        if (response.data.isFollowing === true) {
+          event.target.classList.add('btn-outline-danger')
+          followBtn.innerText = 'Unfollow'
+          event.target.classList.remove('btn-outline-success')
+        } else {
+          event.target.classList.add('btn-outline-success')
+          followBtn.innerText = 'Follow'
+          event.target.classList.remove('btn-outline-danger')
+        }
+  
+        const followCnt = document.querySelector('#follow-cnt')
+        followCnt.innerHTML = `
+          <h3 class="follow">Followers : ${ response.data.followers }</h3>
+          <h3 class="follow">Followings : ${ response.data.followings }</h3>
+        `
+      })
+    })
+  
+  </script>
