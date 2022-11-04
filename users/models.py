@@ -16,7 +16,14 @@ class User(AbstractUser):
     #     format="JPEG",
     #     options={"quality": 80},
     # )
+
+    hp = models.IntegerField(verbose_name="핸드폰번호", null=True)
+    email = models.EmailField(
+        max_length=128, verbose_name="이메일", null=True
+    )
     user_wishlist = models.ManyToManyField(Restaurant, related_name='user_wishlist')
+
+    
     @property
     def full_name(self):
         return f'{self.last_name}{self.first_name}'

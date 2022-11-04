@@ -1,12 +1,36 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-
+{% load static %}
 {% block body %}
-<h1>회원가입</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="OK" %}
-</form>
 
+
+<div class="container">
+    
+    <div class="row ">
+        <div class="d-flex justify-content-md-center">
+            <h1>회원가입</h1>
+            <div style="position: absolute; top: 50%; height: 876.39px; margin-top: -238.195px;">
+                <div class="card" style="width: 40rem;">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="{% static 'images/logo.png' %}"
+                                style="width: 80%; margin-top:10px; margin-bottom: -30px;">
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+                                    <div class="d-flex justify-content-md-center">
+                                    {% bootstrap_button button_type="submit" content="OK" %}
+                                </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 {% endblock body %}
