@@ -3,73 +3,109 @@
 
 {% block body %} 
 <h1>{{ review.title }}</h1>
-<p>{{ review.pk }}번 게시글 | <a href="{% url 'users:detail' review.user.pk %}">{{ review.user.username }}</a></p>
-<p>{{ review.created_at|date:"SHORT_DATETIME_FORMAT" }} | {{ review.updated_at|date:"y-m-d D" }}</p>
-{% if request.user.is_authenticated %}
-  {% if request.user in review.like_users.all %}
-    <i id="like-btn" data-review-id="{{ review.pk }}" class="bi bi-heart-fill"></i>
-  {% else %}
-    <i id="like-btn" data-review-id="{{ review.pk }}" class="bi bi-heart"></i>
-  {% endif %}
-{% endif %}
-<span id="like-count">{{ review.like_users.count }}</span>
+<div>
+  <div class="container">
+    <div class="row-mt-5">
+        <div class="col-12">
+            <!--본문-->
+            <div class="card" style="width: 100%;">
+                <!--제목,분류,작성일-->
+                <div class="card-header">
 
-{% if request.user == review.user %}
-<p>
-  <a href="{% url 'reviews:update' review.pk %}">수정하기</a>
-</p>
-{% endif %}
-<hr>
-<p>{{ review.content }} </p>
-<a href="{% url 'reviews:test_detail' review.pk %}">테스트페이지</a>
-{% if review.image %}
-  <img src="{{ review.image.url }}" alt="{{ review.image }}" width="400" height="300">
-{% endif %}
-<hr>
-<h4 class="my-3">댓글</h4>
-{% if request.user.is_authenticated %}
-<form id="comment-form" data-review-id="{{ review.pk }}">
-  {% csrf_token %}
-  {% bootstrap_form comment_form layout='floating'%}
-  {% bootstrap_button button_type="submit" content="OK" %}
-</form>
-{% endif %}
-<hr>
-<div id="comments">
-    {% for comment in comments %}
-      
-    <div class="d-flex justify-content-between flex-column">
-        <div class="d-flex  justify-content-between">
-            <h6 class="link mx-4">
-                <a class="title_link" href="{% url 'users:detail' comment.user.pk %}">
-                    {{ comment.user.username }}</a>
-            </h6>
-            <h6 class="link mx-4">
-                {{ comment.created_at }}
-            </h6>
-        </div>
-        <p>
-        <div class="d-flex  justify-content-between">
-            <h6 class="mx-4 flex-fill">{{ comment.content }} </h6>
-            <div class="commet-btn">
-                {% if request.user == comment.user %}
-                <form action="{% url 'reviews:comment_delete' comment.review.pk comment.pk %}" method="POST">
-                    {% csrf_token %}
-                    <button class="float-end btn btn-dark  btn-sm ">DEL</button>
-                </form>
-                {% else %}
-    
-                {% endif %}
+                </div>
+                <div class="card-body" style="min-height: 400px; color:black;">
+                    <!--작성자, 조회수-->
+                    <div>
+                        <span><i class="fas fa-user-edit"></i>&nbsp;작성자 : <a href="{% url 'users:detail' review.user.pk %}">{{ review.user.username  }}</a></span>
+
+                    </div>
+                    <hr>
+                    <!--내용-->
+                    {% if review.image %}
+                    <img src="{{ review.image.url }}" alt="{{ review.image }}" width="400" height="300">
+                    {% endif %}
+                    <div>
+                      {{ review.content }}
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-center" style="margin-bottom:-10px; margin-top: -6px;">
+                      <div type="button" class="btn btn-outline-success">
+                        {% if request.user.is_authenticated %}
+                            {% if request.user in review.like_users.all %}
+                              <i id="like-btn" data-review-id="{{ review.pk }}" class="bi bi-hand-thumbs-up-fill"></i>&nbsp;추천
+                            {% else %}
+                                <i id="like-btn" data-review-id="{{ review.pk }}" class="bi bi-hand-thumbs-up"></i>&nbsp;추천
+                            {% endif %}
+                          {% endif %}
+                          <span id="like-count" style="margin-left: 5px;">&nbsp;{{ review.like_users.count }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                  <hr>
+                  <div class="d-flex justify-content-end">
+                    <div class="text-right" style="margin-top:-15px;">
+                      {% if request.user == review.user %}
+                          <button class="btn btn-sm" id="detail_btn" onclick="location.href='/reviews/{{ review.id }}/update/'">수정</button>
+                          <button class="btn btn-sm" id="detail_btn" data-bs-toggle="modal" data-bs-target="#delete_modal">삭제</button>
+                          <button class="btn btn-sm" id="detail_btn" onclick="location.href='/Restaurant/{{ review.Restaurant_id }}/'">목록으로</button>
+                        {% else %}
+                          <button class="btn btn-sm" id="detail_btn" onclick="location.href='/Restaurant/{{ review.Restaurant_id }}/'">목록으로</button>
+                        {% endif %}
+                    </div>
+                  </div>
+                </div>
             </div>
-        </div>
-        </p>
-</div>
-      <hr>    
-    {% empty %}
-      <p>댓글이 없어요 ㅠ_ㅠ</p>
-    {% endfor %}
-    </div>
-    
+            <br>
+            <!--댓글-->
+            <div class="card" style="width: 100%;">
+              <div class="card-header">
+                  <div class="col-md-12">
+                    {% if request.user.is_authenticated %}
+                    <form id="comment-form" data-review-id="{{ review.pk }}">
+                      {% csrf_token %}
+                      {% bootstrap_form comment_form layout='floating'%}
+                      {% bootstrap_button button_type="submit" id="detail_btn" content="댓글달기" %}
+                    </form>
+                    {% endif %}
+                    <hr>
+                    <div id="comments">
+                      {% for comment in comments %}
+                       
+                      <div class="d-flex justify-content-between flex-column">
+                          <div class="d-flex  justify-content-between">
+                              <h6 class="link mx-4">
+                                  <a class="title_link" href="{% url 'users:detail' comment.user.pk %}">
+                                      {{ comment.user.username }}</a>
+                              </h6>
+                              <h6 class="link mx-4">
+                                  {{ comment.created_at }}
+                              </h6>
+                          </div>
+                          <p>
+                          <div class="d-flex  justify-content-between">
+                              <h6 class="mx-4 flex-fill">{{ comment.content }} </h6>
+                              <div class="commet-btn">
+                                  {% if request.user == comment.user %}
+                                  <form action="{% url 'reviews:comment_delete' comment.review.pk comment.pk %}" method="POST">
+                                      {% csrf_token %}
+                                      <button class="float-end btn btn-dark  btn-sm ">DEL</button>
+                                  </form>
+                                  {% else %}
+                      
+                                  {% endif %}
+                              </div>
+                          </div>
+                          </p>
+                        </div>
+                        <hr>    
+                         {% endfor %}
+                </div>
+              </div>
+            </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       // (1) 좋아요 버튼
@@ -85,14 +121,14 @@
         .then(response => {
           console.log(response)
           console.log(response.data)
-          // event.target.classList.toggle('bi-heart')
-          // event.target.classList.toggle('bi-heart-fill')
+          // event.target.classList.toggle('bi-hand-thumbs-up')
+          // event.target.classList.toggle('bi-hand-thumbs-up-fill')
           if (response.data.isLiked === true) {
-            event.target.classList.add('bi-heart-fill')
-            event.target.classList.remove('bi-heart')
+            event.target.classList.add('bi-hand-thumbs-up-fill')
+            event.target.classList.remove('bi-hand-thumbs-up')
           } else {
-            event.target.classList.add('bi-heart')
-            event.target.classList.remove('bi-heart-fill')
+            event.target.classList.add('bi-hand-thumbs-up')
+            event.target.classList.remove('bi-hand-thumbs-up-fill')
           }
           const likeCount = document.querySelector('#like-count')
           likeCount.innerText = response.data.likeCount
@@ -126,4 +162,4 @@
         })
       })
     </script> 
-    {% endblock %}
+{% endblock %}
