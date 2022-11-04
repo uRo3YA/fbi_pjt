@@ -9,7 +9,7 @@
 <!-- 가게 정보 -->
 <div class="d-flex justify-content-between">
     <div class="text-black ms-5">
-        <h2>{{info.title}}</h2>
+        <b><h2>{{info.title}}</h2></b>
          <!--위시리스트-->
         {% if request.user.is_authenticated %}
             {% if request.user in info.wishlist.all %}
@@ -24,7 +24,7 @@
         <p class="mt-5"><b>설명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <br>
             {{info.description |linebreaksbr}}</p>
-        <p class="mt-5"><b>전화</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.tel}}</p>
+        <p class="mt-5"><b>전화번호</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.tel}}</p>
         <p class="mt-5"><b>사진</b>
         <br>
         {% if info.imgurl %}
