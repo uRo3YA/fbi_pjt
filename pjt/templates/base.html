@@ -22,7 +22,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-white bg-white py-0 sticky-top opacity-75">
+    <nav class="navbar navbar-expand-lg navbar-white bg-white py-0 sticky-top opacity-75"
+        style="box-shadow: 1px 1px 0 0px #dddddd;">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'root' %}">
                 <img src="https://cdn-icons-png.flaticon.com/512/2035/2035012.png" alt="" width="30px">
@@ -45,7 +46,7 @@
                     <div class="search-box">
                         <form action="{% url 'Restaurant:search' %}" method="post">
                             {% csrf_token %}
-                            <input class="search-txt" type="text" placeholder=" 맛집 단속" size="20" name="q" value="{{q}}">
+                            <input class="search-txt" type="text" placeholder=" 맛집 단속" size="15" name="q" value="{{q}}">
                             <button class="search-btn" type="submit" maxlength="50">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -76,6 +77,35 @@
 
     </nav>
 
+    <script>
+        var div2 = document.getElementsByClassName("search-txt");
+
+        function handleClick(event) {
+            console.log(event.target);
+            // console.log(this);
+            // 콘솔창을 보면 둘다 동일한 값이 나온다
+
+            console.log(event.target.classList);
+
+            if (event.target.classList[1] === "clicked") {
+                event.target.classList.remove("clicked");
+            } else {
+                for (var i = 0; i < div2.length; i++) {
+                    div2[i].classList.remove("clicked");
+                }
+
+                event.target.classList.add("clicked");
+            }
+        }
+
+        function init() {
+            for (var i = 0; i < div2.length; i++) {
+                div2[i].addEventListener("click", handleClick);
+            }
+        }
+
+        init();
+    </script>
 
     <div class="container">
         {% block body %}{% endblock body %}

@@ -1,5 +1,6 @@
 .nav-logo-size {
     width: 5rem;
+
 }
 
 .footer-size {
@@ -14,22 +15,21 @@ h2 {
     position: absolute;
     top: 55%;
     left: 50%;
-
     transform: translate(-50%, -50%);
-    height: 30px;
+    height: 70%;
     padding: 0px;
     border-radius: 40px;
-    background: #e5e7e9;
-    box-shadow: 1px 1px 0 1px skyblue;
+    background: #ffffff;
+    box-shadow: 0px 0px 0 2px #00ffd7;
 }
 
 .search-btn {
-    color: #3c2dd8;
+    color: #8380a7;
     float: right;
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #e5e7e9;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,10 +42,19 @@ h2 {
     background: none;
     border: none;
     outline: none;
-    color: rgb(21, 5, 147);
+    color: #150593;
     font-size: 20px;
-    line-height: 10px;
 }
+
+
+.clicked {
+    height: 30px;
+    margin-top: 0.2px;
+    border-radius: 1rem 1px 0px 1rem;
+    outline: rgb(255, 255, 255);
+    box-shadow: 0px 0px 0 2.1px rgb(255, 183, 247);
+}
+
 
 .box {
     color: #595960;
@@ -110,8 +119,8 @@ h2 {
 }
 
 .imgBoxDiv {
-    width: 318px;
-    height: 300px;
+    width: 100%;
+    height: 400px;
     cursor: pointer;
     overflow: hidden;
     box-shadow: 2px 2px 8px 0px #000;
@@ -146,9 +155,8 @@ h2 {
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    justify-content: flex-start;
     position: relative;
-    width: 80%;
+    width: 70%;
     flex-direction: column;
 }
 
