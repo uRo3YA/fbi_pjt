@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm,CustomPasswordChangeForm
 from .models import User
 from .models import Profile
 from Restaurant.models import Restaurant
@@ -106,19 +106,21 @@ def update(request):
 @login_required
 def change_password(request):
     if request.method == "POST":
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            # 세션 무효화 방지
-            update_session_auth_hash(request, form.user)
-            return redirect("users:index")
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            # logout(request)
+            messages.success(request, "비밀번호를 성공적으로 변경하였습니다.")
+            return redirect('root')
     else:
-        form = PasswordChangeForm(request.user)
-        
-    context = {
-        "form": form,
-    }
-    return render(request, "users/change_password.html", context)
+        password_change_form = CustomPasswordChangeForm(request.user)
+
+    return render(
+        request,
+        "users/change_password.html",
+        {"password_change_form": password_change_form},
+    )
 
 
 @login_required
