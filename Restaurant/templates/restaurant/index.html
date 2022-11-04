@@ -7,17 +7,27 @@
 {% endif %}
 <div class="container d-flex row">
     {% for content in contents %}
-    <div class="card col-4 m-3 p-0" style="width: 20rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
-        <a class="text-decoration-none">
-            {% if content.imgurl %}
-            <img src="{{ content.imgurl}}" alt="{{content.imgurl}}" class="card-img-top" style="height: 250px;">
-            {% else %}
-            <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" class="card-img-top" style="height: 400px;">
-            {% endif %}
-            <div class="card-body">
-                <p class="card-text text-center fw-bold">{{ content.title }}</p>
-            </div>
-        </a>
+
+    <div class="card col-4 m-5 p-0" style="width: 20rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
+        <div class="imgBoxDiv">
+            <a class="text-decoration-none">
+                <div class="imgDiv">
+                    {% if content.imgurl %}
+                    <img src="{{ content.imgurl}}" alt="{{content.imgurl}}" class="card-img-top" style="height: 400px;">
+                    {% else %}
+                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" class="card-img-top"
+                        style="height: 400px;">
+                    {% endif %}
+                </div>
+                <div class="imgDesDiv"
+                    style="width:100%; height:50px; padding: 10px; position: absolute; bottom: 20px; display: flex;">
+                    <div class="card-body">
+                        <p class="card-text text-center fw-bold">{{ content.title }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
     {% endfor %}
 </div>
