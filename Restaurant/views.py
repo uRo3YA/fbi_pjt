@@ -11,6 +11,63 @@ from django.core.paginator import Paginator
 import json
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+
+from urllib.request import urlopen as url_open
+from urllib import parse
+from urllib.request import Request
+from urllib.error import HTTPError
+from bs4 import BeautifulSoup
+import json
+
+
+
+
+
+def get_geo(addr):
+    #naver map api key
+    client_id = 'ureszraal9';    # 본인이 할당받은 ID 입력
+    client_pw = 'mM198tK1l9K1yvDiLT315g8IWY5bogukDngUNxDF';    # 본인이 할당받은 Secret 입력
+
+    api_url = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query='
+    geo_coordi = {}
+    add_urlenc = parse.quote(addr)  
+    url = api_url + add_urlenc 
+    
+    request = Request(url)
+    request.add_header('X-NCP-APIGW-API-KEY-ID', client_id)
+    request.add_header('X-NCP-APIGW-API-KEY', client_pw)
+    context=0
+    try:
+        response = url_open(request)
+    except HTTPError as e:
+        print('HTTP Error!')
+        latitude = None
+        longitude = None
+    else:
+        rescode = response.getcode()
+        if rescode == 200:
+            response_body = response.read().decode('utf-8')
+            response_body = json.loads(response_body)   # json
+            if response_body['addresses'] == [] :
+                print("'result' not exist!")
+                latitude = None
+                longitude = None
+            else:
+                latitude = response_body['addresses'][0]['y']
+                longitude = response_body['addresses'][0]['x']
+                print("Success!")
+        else:
+            print('Response error code : %d' % rescode)
+            latitude = None
+            longitude = None
+
+    geo_coordi={"longtitude" : longitude,
+            "latitude" : latitude}
+    print(geo_coordi)
+    return geo_coordi
+
+
+
 def index(request):
     contents = Restaurant.objects.all()
     #contents = Store.objects.all()
@@ -25,6 +82,12 @@ def create(request):
         Restaurant_Form = RestaurantForm(request.POST, request.FILES)
         if Restaurant_Form.is_valid():
             restaurant = Restaurant_Form.save(commit=False)           
+            #print(restaurant.addr)
+            result=get_geo(restaurant.addr)
+            #print("longtitude:",result["longtitude"])
+            #print("latitude:",result["latitude"])
+            restaurant.longtitude=float(result["longtitude"])
+            restaurant.latitude=float(result["latitude"])
             restaurant.save()
             return redirect('Restaurant:index')
     else: 
@@ -38,6 +101,7 @@ def detail(request, pk):
     info = Restaurant.objects.get(pk=pk)
     #store= Store.objects.get(pk=pk)
     review = Review.objects.filter(Restaurant_id=info.pk)
+    #print(review.comment_set.all().count)
     storedict = {
         'lat': info.latitude,
         'lon': info.longtitude,
@@ -58,6 +122,12 @@ def update(request, pk):
     if request.method == "POST":
         Restaurant_Form = RestaurantForm(request.POST,  request.FILES,instance=info)
         if Restaurant_Form.is_valid():
+            result=get_geo(info.addr)
+            #print("longtitude:",result["longtitude"])
+            #print("latitude:",result["latitude"])
+            info.longtitude=float(result["longtitude"])
+            info.latitude=float(result["latitude"])
+            info.save()
             Restaurant_Form.save()
             return redirect("Restaurant:detail", info.pk)
     else:
@@ -103,3 +173,4 @@ def wishlist(request, pk):
         is_liked = True
     context = {'isLiked': is_liked, 'likeCount': info.wishlist.count()}
     return JsonResponse(context)
+

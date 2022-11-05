@@ -1,17 +1,46 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-
+{% load static %}
 {% block body %}
+<div class="container">
+  <div class="row mt-5">
+      <div class="col-12">
+        {% if request.resolver_match.url_name == 'review_create' %}
+            <h4 style="font-weight: bold;">리뷰 작성</h4>
+        {% else %}
+            <h4 style="font-weight: bold;">리뷰 수정</h4>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row-mt-5">
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card" style="width: 100%;">
+          <!--제목-->
+              <div class="card-header" style="padding: 0rem 0.2rem">
+                    <div class="md-form form-group" style="margin-top: 8.5px;">
+                        <div style="padding: 0 5.5px;">
+                        <!-- <label for="{{ form.title.id_for_label }}"
+                            class="col-sm-2 control-label">{{ form.title.label }}</label> -->
+                            {{ review_form.title }}
+                        </div>
+                      </div>
+                </div>
+            <!--내용-->
+            {{ review_form.content }}
+          </div>
+        </div>
+        <div class="card-footer" style="padding-left: 0px; margin-top:18px;">
+          <div class="form-group">
+              <div class="col-sm-12">
+                  {{ review_form.image }}
+              </div>
+          </div>
+      </div>
+        {% bootstrap_button button_type="submit" content="OK" %}
+      </form>
+        </div>
+    </div>
 
-{% if request.resolver_match.url_name == 'create' %}
-<h1> 글쓰기 </h1>
-{% else %}
-<h1> 수정하기 </h1>
-{% endif %}
-
-<form action="" method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {% bootstrap_form review_form %}
-  {% bootstrap_button button_type="submit" content="OK" %}
-</form>
 {% endblock %}
+

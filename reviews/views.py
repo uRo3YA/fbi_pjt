@@ -45,7 +45,7 @@ def delete(request, pk):
         info.delete()
     return redirect("Restaurant:detail", res_id)
 
-
+@login_required(login_url='/users/login/')
 def detail(request, pk):
     review = get_object_or_404(Review, pk=pk)
     comment_form = CommentForm()

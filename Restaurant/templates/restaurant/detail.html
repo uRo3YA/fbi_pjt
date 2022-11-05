@@ -12,11 +12,13 @@
         <b><h2>{{info.title}}</h2></b>
          <!--위시리스트-->
         {% if request.user.is_authenticated %}
-            {% if request.user in info.wishlist.all %}
-                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star-fill"></i>
+                {% if request.user in info.wishlist.all %}
+                    <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star-fill"></i>
+                {% else %}
+                    <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
+                {% endif %}
             {% else %}
-                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
-            {% endif %}
+            <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
         {% endif %}
         <span id="wish-count">{{ info.wishlist.count }}</span>
         <p class="mt-5"><b>주소</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{info.addr}}</p>
@@ -48,17 +50,15 @@
     <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
 </div>
 <!--슈퍼 유저인지 확인-->
-{% if request.user.is_superuser %}
+
 <!--가게 정보 수정 및 삭제-->
 <div class="text-end my-3">
-    <a href="" class="btn btn-primary">가게 정보 수정(지오태그 미구현)</a>
+    <a href="{% url 'Restaurant:update' info.pk %}" class="btn btn-primary">가게 정보 수정</a>
 </div>
 <div class="text-end my-3">
     <a href="{% url 'Restaurant:delete' info.pk %}" class="btn btn-primary">가게 삭제</a>
 </div>
-{% else %}
 
-{% endif %}
 
 
 <table class="table table-hover text-center">

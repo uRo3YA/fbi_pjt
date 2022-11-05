@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm,CustomPasswordChangeForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm,CustomPasswordChangeForm,CheckPasswordForm
 from .models import User
 from .models import Profile
 from Restaurant.models import Restaurant
@@ -11,6 +11,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -35,7 +36,7 @@ def signup(request):
     context = {"form": form}
     return render(request, "users/signup.html", context)
 
-
+@login_required
 def detail(request, pk):
     # print(a)
     user = get_user_model().objects.get(pk=pk)
@@ -125,10 +126,20 @@ def change_password(request):
 
 @login_required
 def delete(request):
-    request.user.delete()
-    auth_logout(request)
-    return redirect("root")
+    if request.method == "POST":
+        password_form = CheckPasswordForm(request.user, request.POST)
 
+        if password_form.is_valid():
+            request.user.delete()
+            logout(request)
+            messages.success(request, "회원탈퇴가 완료되었습니다.")
+            return redirect("root")
+    else:
+        password_form = CheckPasswordForm(request.user)
+
+    return render(
+        request, "users/delete.html", {"password_form": password_form}
+    )
 
 
 @login_required
