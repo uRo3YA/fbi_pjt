@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load static %}
+
+{% block summernote %}
+
+{% endblock %}
+
+
+
+
 {% block body %}
 <div class="container">
   <div class="row mt-5">
@@ -41,6 +49,29 @@
       </form>
         </div>
     </div>
-
+    
+    <script>
+      $(document).ready(function () {
+          $('#id_content').summernote({
+              placeholder: '내용을 입력해주세요.',
+              height: 300,
+              minHeight: 300,
+              maxHeight: 300,
+              lang: 'ko-KR',
+             
+              toolbar: [
+              ['style', ['style']],
+              ['font', ['bold', 'underline', 'clear']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['table', ['table']],
+              ['insert', ['link', 'picture', 'video']],
+              ['view', ['fullscreen', 'help']]
+              ]
+          });
+          $('p').css('margin-bottom','0')
+          $('.note-resizebar').css('display','none');
+      });
+  </script>
 {% endblock %}
 

@@ -25,7 +25,7 @@
                     <img src="{{ review.image.url }}" alt="{{ review.image }}" width="400px" height="300px">
                     {% endif %}
                     <div>
-                      {{ review.content|linebreaksbr }}
+                      {{ review.content|safe}}
                     </div>
                     <br>
                     <div class="d-flex justify-content-center" style="margin-bottom:-10px; margin-top: -6px;">

@@ -10,19 +10,14 @@ class ReviewForm(forms.ModelForm):
             'class': 'form-control',
             'id': 'form_title',
             'autofocus': True,
-            'style': "width: 91%;"
+         
         })
-        self.fields['content'].label = '리뷰 내용'
-        self.fields['content'].widget.attrs.update({
-            'class': 'form-control',
-            'autofocus': False,
-            'style': "width: 91%; height:40%;"
-        })
+
         self.fields['image'].label = '첨부 이미지'
         self.fields['image'].widget.attrs.update({
             'class': 'form-control',
             'autofocus': False,
-            'style': "width: 91%; "
+            'style': "width: 40%; "
         })
     class Meta:
         model = Review
