@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm,CustomPasswordChangeForm,CheckPasswordForm
 from .models import User
-from .models import Profile
+#from .models import Profile
 from Restaurant.models import Restaurant
 from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model, update_session_auth_hash
@@ -24,11 +24,11 @@ def index(request):
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
-        profile_ = Profile()  
+        #profile_ = Profile()  
         if form.is_valid():
             user = form.save()
-            profile_.user = user # 프로필에 유저 추가
-            profile_.save()      # 저장
+            #profile_.user = user # 프로필에 유저 추가
+            #profile_.save()      # 저장
             auth_login(request, user) 
             return redirect("users:index")
     else:
@@ -40,7 +40,7 @@ def signup(request):
 def detail(request, pk):
     # print(a)
     user = get_user_model().objects.get(pk=pk)
-    profile_ = user.profile_set.all()[0]
+    profile_ = user.image
     #followings=user.followers.all()
     #a=(user.user_wishlist.all())
     #print(followings.count)
@@ -56,12 +56,12 @@ def detail(request, pk):
 
 def wishlist(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    profile_ = user.profile_set.all()[0]
+    #profile_ = user.profile_set.all()[0]
     #a=(user.user_wishlist.all())
     #print(a.title)
     context = {
         "user": user,
-        "profile": profile_,
+        #"profile": profile_,
         'user_wishlist': user.user_wishlist.all(),
         }
     return render(request, "users/wishlist.html", context)
@@ -145,14 +145,14 @@ def delete(request):
 @login_required
 def profile_update(request):
     user_ = get_user_model().objects.get(pk=request.user.pk)
-    current_user = user_.profile_set.all()[0]
+    #current_user = user_.profile_set.all()[0]
     if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES, instance=current_user)
+        form = ProfileForm(request.POST, request.FILES, instance=user_)
         if form.is_valid():
             form.save()
             return redirect("users:detail", request.user.pk)
     else:
-        form = ProfileForm(instance=current_user)
+        form = ProfileForm(instance=user_)
     context = {
         "profile_form": form,
     }

@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm,PasswordChangeForm
-from .models import Profile
+from .models import User
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
@@ -37,7 +37,7 @@ class CustomUserChangeForm(UserChangeForm):
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = Profile
+        model = User
         fields = ["image"]
 
 # 비밀번호 변경 폼

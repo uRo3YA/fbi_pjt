@@ -45,6 +45,7 @@
     </div> 
    
 </div>
+{% if request.user.is_authenticated %}
 <!-- 리뷰 게시글 -->
 <div class="text-end my-3">
     <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
@@ -59,6 +60,9 @@
     <a href="{% url 'Restaurant:delete' info.pk %}" class="btn btn-primary">가게 삭제</a>
 </div>
 
+{% else %}
+
+{% endif %}
 
 
 <table class="table table-hover text-center">
