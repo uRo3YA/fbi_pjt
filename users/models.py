@@ -25,21 +25,26 @@ class User(AbstractUser):
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
     )
-    
-    @property
-    def full_name(self):
-        return f'{self.last_name}{self.first_name}'
-
-
-
-class Profile(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = ProcessedImageField(
         blank=True,
         processors=[Thumbnail(200, 200)],
         format="JPEG",
         options={"quality": 50},
     )
+    @property
+    def full_name(self):
+        return f'{self.last_name}{self.first_name}'
+
+
+
+# class Profile(models.Model):
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     image = ProcessedImageField(
+#         blank=True,
+#         processors=[Thumbnail(200, 200)],
+#         format="JPEG",
+#         options={"quality": 50},
+#     )
 
 # class Wishlist(models.Model):
 #     user_id    = models.ForeignKey(User, on_delete = models.CASCADE)
