@@ -3,122 +3,185 @@
 {% load static %}
 {% block body %}
 
-<div class="con py-5 px-5" style="background-color: rgb(255,255,255)">
-    <div class="row mt-5 text-center justify-content-center">
-        <h2 class="my-5">{{ user.username }}님의 프로필</h2>
-        <div>
-            {% if profile.image %}
-            <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px;">
-            {% else %}
-            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 100px; height: 100px;">
-            {% endif %}
-            <div>
-            <br><a href="{% url 'users:profile_update' %}" class='btn btn-outline-success'>프로필 이미지 수정</a>
-        </div>
-        <br></div>
-        <p class="mb-4">이름 :
-            {{ user.full_name }}</p>
-        <p class="mb-4">이메일 :
-            {{ user.email }}</p>
-        <p class="mb-4">
-            {% if request.user != user %}
-            <a href="{% url 'users:follow' user.pk %}">
-                {% if request.user in user.followers.all %}
-                    <button type="button" class="btn btn-primary btn-sm">팔로우 취소</button>
-                {% else %}
-                    <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                {% endif %}
-            </a>
-            {% endif %}
-        </p>
-        
-        <p class="mb-4">팔로워 목록 :
-            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#following_modal">{{user.followers.all.count}}</a>
-        </p>
-        <div id="following_modal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Following</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        {% for  a in user.followers.all %}
-                        <p>
-                            <a class="text-decoration-none" href="{% url  'users:detail' a.id %}">
-                                {{ a.full_name }}</a>
-                        </p>
-                        {% endfor %}
-                    </div>
-                  
-                </div>
+<div class="container">
+    <div style="margin-top: 5rem !important;">
+        <div class="col-12">
+            <div class="row justify-content-center text-center">
 
-            </div>
-        </div>
-        <p class="mb-4">팔로잉 목록 :
-            <a id="detail_btn" data-bs-toggle="modal" data-bs-target="#follower_modal">{{follower_list.count}}</a>
-        </p>
-        <div id="follower_modal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Follower</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                <div class="card col-6">
+                    <div class="card-header" style="padding-bottom:8px;">
+                        <strong style="font-size: 18px;"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;유저 정보</strong>
                     </div>
-                    <div class="modal-body">
-                        {% for  b in follower_list %}
-                        <p>
-                            <a class="text-decoration-none" href="{% url  'users:detail' b.id %}">
-                                {{ b.full_name }}</a>
-                        </p>
-                        {% endfor %}
+                    <div class="card-body ">
+                        <div class=" d-flex justify-content-center">
+                            <table style="color:black; margin-left:10px;">
+                                <tr>
+                                    <td>
+                                        {% if profile.image %}
+                                        <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px;">
+                                        {% else %}
+                                        <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 100px; height: 100px;">
+                                        {% endif %}
+                                        <div>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'users:profile_update' %}" >프로필 이미지 수정</a>
+                                    </td>
+                                </tr>
+                                {% if request.user != user %}
+                                <tr>
+                                    <td>팔로잉 버튼</td>
+                                    <td>   
+                                        <a href="{% url 'users:follow' user.pk %}">
+                                            {% if request.user in user.followers.all %}
+                                                <button type="button" class="btn btn-primary btn-sm">팔로우 취소</button>
+                                            {% else %}
+                                                <button type="button" class="btn btn-primary btn-sm">팔로우</button>
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="profile_title">아이디</td>
+                                    <td class="profile_content">{{ user }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">이메일</td>
+                                    <td class="profile_content"> {{ user.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">이름</td>
+                                    <td class="profile_content">{{ user.full_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">연락처</td>
+                                    <td class="profile_content">{{ user.hp }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">위시리스트</td>
+                                    <td class="profile_content"><a  class="text-decoration-none" href="{% url 'users:wishlist_list' user.id %}">{{ user.user_wishlist.count}}개</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">팔로워</td>
+                                    <td class="profile_content"><a  data-bs-toggle="modal" data-bs-target="#following_modal">{{user.followers.all.count}}명</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">팔로잉</td>
+                                    <td class="profile_content"><a  data-bs-toggle="modal" data-bs-target="#follower_modal">{{follower_list.count}}명</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">작성한 글</td>
+                                    <td class="profile_content"><a  data-bs-toggle="modal" data-bs-target="#review_modal">{{ user.review_set.count }}개</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="profile_title">작성한 댓글</td>
+                                    <td class="profile_content"><a  data-bs-toggle="modal" data-bs-target="#comment_modal">{{ user.comment_set.count }}개</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr>
+                        <div style="text-align: center;">
+                            {% if request.user == user %}
+                            <!-- <div style="margin-left: 10px;"> -->
+                            <a href="{% url 'users:update' %}" style="color:#000000f2; font-size:15px;"><i
+                                    class="fas fa-user-edit"></i>&nbsp;내정보수정</a>&nbsp;&middot;&nbsp;
+                            <a href="{%  url 'users:change_password' %}" style="color:#000000f2; font-size:15px;"><i
+                                    class="fas fa-user-lock"></i>&nbsp;비밀번호변경</a>&nbsp;&middot;&nbsp;
+                            <a href="{% url 'users:delete' %}" style="color:#000000f2; font-size:15px;"><i
+                                    class="fas fa-user-slash"></i>&nbsp;회원탈퇴</a> <br>
+                            {% else %}
+                            <a href="{% url 'users:index' %}" style="color:#000000f2; font-size:15px;"><i
+                                class="fa-solid fa-user"></i>&nbsp;회원 목록</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="d-flex text-start justify-content-evenly">
-            <div class="mb-4">
-                <h4 class="fw-bold">작성한 글</h4>
-                <p class="text-muted">{{ user.review_set.count }}개를 작성하였습니다.</p>
-                {% for review in user.review_set.all %}
-                <p>
-                    <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
-                </p>
-                {% endfor %}
-            </div>
-            <div class="mb-4">
-                <h4 class="fw-bold">작성한 댓글</h4>
-                <p class="text-muted">{{ user.comment_set.count }}개를 작성하였습니다.</p>
-                {% for comment in user.comment_set.all %}
-                <p>
-                    <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">
-                        {{ comment.content }}</a>
-                </p>
-                {% endfor %}
-            </div>
-            <div class="mb-4">
-                <a  class="text-decoration-none" href="{% url 'users:wishlist_list' user.id %}">
-                <h4 class="fw-bold">위시리스트</h4>
-                </a>
-                <p class="text-muted">{{ user.user_wishlist.count}}개가  있습니다.</p>
+    </div>
+</div>
 
+    <div id="following_modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Following</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for  a in user.followers.all %}
+                    <p>
+                        <a class="text-decoration-none" href="{% url  'users:detail' a.id %}">
+                            {{ a.full_name }}</a>
+                    </p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <!-- buttons -->
-        {% if request.user == user %}
-        <div>
-            <a class="btn btn-primary me-3" href="{% url 'users:update' %}">수정하기</a>
-            <a class="btn btn-outline-primary" href="{% url 'users:index' %}">회원목록</a>
+    </div>
+
+    <div id="follower_modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Follower</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for  b in follower_list %}
+                    <p>
+                        <a class="text-decoration-none" href="{% url  'users:detail' b.id %}">
+                            {{ b.full_name }}</a>
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        {% else %}
-        <div>
-            <a class="btn btn-outline-primary" href="{% url 'users:index' %}">회원목록</a>
+    </div>
+    <div id="review_modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">작성한 글</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for review in user.review_set.all %}
+                    <p>
+                        <a class="text-decoration-none" href="{% url 'reviews:detail' review.pk %}">{{ review.title }}</a>
+                            
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        {% endif %}
+    </div>
+    <div id="comment_modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">작성한 댓글</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for comment in user.comment_set.all %}
+                    <p>
+                        <a class="text-decoration-none" href="{% url 'reviews:detail' comment.review_id %}">{{ comment.content }}</a>
+                            
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock body %}
