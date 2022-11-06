@@ -7,6 +7,17 @@
 {% else %}
 {% endif %}
 <div class="container d-flex row">
+    <div id="wrap" style="margin-top:20px; margin-bottom: 15px;">
+        <div class="1-wrap">
+            <div class="content-header-cell">
+                <h1 class="h h--en" style="display: flex; justify-content: center;">맛집<img
+                        src="https://st3.depositphotos.com/5266903/17042/v/450/depositphotos_170425514-stock-illustration-mafia-boss-flat-icon.jpg"
+                        style="width:4%;">수배
+                </h1>
+            </div>
+        </div>
+    </div>
+    <hr class="one">
     {% for content in contents %}
 
     <div class="card col-2 m-5 p-0" style="width: 20rem;" onclick="location.href='/Restaurant/{{ content.id }}/'">
@@ -27,7 +38,9 @@
                 <div class="imgDesDiv"
                     style="width:100%; height:50px; padding: 10px; position: absolute; bottom: 20px; display: flex;">
                     <div class="card-body">
-                        <p class="card-text text-center fw-bold">{{ content.title }}</p>
+                        <p class="card-text text-center fw-bold" style="font-size: large;"><img
+                                src="https://th.bing.com/th/id/OIP.6A3NtgNvYpYzFrb6Hz4GXAHaHa?pid=ImgDet&rs=1"
+                                art="icon" style="width:12%;">&nbsp;{{ content.title }}</p>
                     </div>
                 </div>
             </a>
