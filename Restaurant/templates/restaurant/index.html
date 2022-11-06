@@ -3,7 +3,7 @@
 {% load static %}
 {% block body %}
 {% if request.user.is_superuser %}
-<a class="btn btn-primary my-3 float-right" href="{% url 'Restaurant:create' %}">가게 작성하기</a>
+<a   class="btn btn-sm my-3 float-right" id="detail_btn" href="{% url 'Restaurant:create' %}">가게 작성하기</a>
 {% else %}
 {% endif %}
 <div class="container d-flex row">

@@ -5,6 +5,7 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Thumbnail
 from Restaurant.models import Restaurant
+
 # Create your models here.
 class User(AbstractUser):
     # description = models.TextField(blank=True)
@@ -18,23 +19,21 @@ class User(AbstractUser):
     # )
 
     hp = models.IntegerField(verbose_name="핸드폰번호", null=True)
-    email = models.EmailField(
-        max_length=128, verbose_name="이메일", null=True
-    )
-    user_wishlist = models.ManyToManyField(Restaurant, related_name='user_wishlist')
+    email = models.EmailField(max_length=128, verbose_name="이메일", null=True)
+    user_wishlist = models.ManyToManyField(Restaurant, related_name="user_wishlist")
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
     )
     image = ProcessedImageField(
         blank=True,
         processors=[Thumbnail(200, 200)],
-        format="JPEG",
+        format="PNG",
         options={"quality": 50},
     )
+
     @property
     def full_name(self):
-        return f'{self.last_name}{self.first_name}'
-
+        return f"{self.last_name}{self.first_name}"
 
 
 # class Profile(models.Model):
