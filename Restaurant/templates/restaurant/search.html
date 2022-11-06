@@ -23,7 +23,20 @@
     <div class="card">
         <div class="card-body">
             <h3>{{ r.title }}</h3>
-            <p>{{ r.category }}&nbsp;&nbsp;<a href="{% url 'Restaurant:detail' r.id %}"> 자세히 보기</a></p>
+            <p>                
+                <div>
+                {% if r.imgurl %}
+                <img src="{{ r.imgurl}}" alt="{{r.imgurl}}" class="card-img-top" style="height: 128px; width: 128px;">
+                {% else %}
+                <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" class="card-img-top"
+                    style="height: 128px;width: 128px;">
+                {% endif %}
+            </div>
+            </p>
+            <p>분류:{{ r.category }}&nbsp;&nbsp;
+                <br>
+                {{ r.description|truncatechars:30  }}
+                <a href="{% url 'Restaurant:detail' r.id %}"> 자세히 보기</a></p>
 
         </div>
     </div>

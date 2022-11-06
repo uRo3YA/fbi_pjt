@@ -1,8 +1,15 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import CustomUserChangeForm, CustomUserCreationForm ,ProfileForm,CustomPasswordChangeForm,CheckPasswordForm
+from .forms import (
+    CustomUserChangeForm,
+    CustomUserCreationForm,
+    ProfileForm,
+    CustomPasswordChangeForm,
+    CheckPasswordForm,
+)
 from .models import User
-#from .models import Profile
+
+# from .models import Profile
 from Restaurant.models import Restaurant
 from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model, update_session_auth_hash
@@ -11,7 +18,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-
+from .decorators import login_message_required
 
 # Create your views here.
 def index(request):
@@ -24,47 +31,50 @@ def index(request):
 def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
-        #profile_ = Profile()  
+        # profile_ = Profile()
         if form.is_valid():
             user = form.save()
-            #profile_.user = user # 프로필에 유저 추가
-            #profile_.save()      # 저장
-            auth_login(request, user) 
+            # profile_.user = user # 프로필에 유저 추가
+            # profile_.save()      # 저장
+            auth_login(request, user)
             return redirect("users:index")
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
     return render(request, "users/signup.html", context)
 
-@login_required
+
+@login_message_required
 def detail(request, pk):
     # print(a)
     user = get_user_model().objects.get(pk=pk)
     profile_ = user.image
-    #followings=user.followers.all()
-    #a=(user.user_wishlist.all())
-    #print(followings.count)
-    follower=get_user_model().objects.filter(followers=pk)
-    #print(follower)
+    # followings=user.followers.all()
+    # a=(user.user_wishlist.all())
+    # print(followings.count)
+    follower = get_user_model().objects.filter(followers=pk)
+    # print(follower)
     context = {
         "user": user,
         "profile": profile_,
-        'user_wishlist': user.user_wishlist.all(),
-        'follower_list':follower
-        }
+        "user_wishlist": user.user_wishlist.all(),
+        "follower_list": follower,
+    }
     return render(request, "users/detail.html", context)
+
 
 def wishlist(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    #profile_ = user.profile_set.all()[0]
-    #a=(user.user_wishlist.all())
-    #print(a.title)
+    # profile_ = user.profile_set.all()[0]
+    # a=(user.user_wishlist.all())
+    # print(a.title)
     context = {
         "user": user,
-        #"profile": profile_,
-        'user_wishlist': user.user_wishlist.all(),
-        }
+        # "profile": profile_,
+        "user_wishlist": user.user_wishlist.all(),
+    }
     return render(request, "users/wishlist.html", context)
+
 
 def login(request):
     if request.method == "POST":
@@ -87,24 +97,22 @@ def logout(request):
     return redirect("root")
 
 
-@login_required
+@login_message_required
 def update(request):
     user_ = get_user_model().objects.get(pk=request.user.pk)
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user) 
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "회원정보가 수정되었습니다.")
             return redirect("users:detail", request.user.pk)
     else:
         form = CustomUserChangeForm(instance=request.user)
-    context = {"form": form, "data":user_}
+    context = {"form": form, "data": user_}
     return render(request, "users/update.html", context)
 
 
-
-
-@login_required
+@login_message_required
 def change_password(request):
     if request.method == "POST":
         password_change_form = CustomPasswordChangeForm(request.user, request.POST)
@@ -113,7 +121,7 @@ def change_password(request):
             update_session_auth_hash(request, user)
             # logout(request)
             messages.success(request, "비밀번호를 성공적으로 변경하였습니다.")
-            return redirect('root')
+            return redirect("root")
     else:
         password_change_form = CustomPasswordChangeForm(request.user)
 
@@ -124,7 +132,7 @@ def change_password(request):
     )
 
 
-@login_required
+@login_message_required
 def delete(request):
     if request.method == "POST":
         password_form = CheckPasswordForm(request.user, request.POST)
@@ -137,15 +145,13 @@ def delete(request):
     else:
         password_form = CheckPasswordForm(request.user)
 
-    return render(
-        request, "users/delete.html", {"password_form": password_form}
-    )
+    return render(request, "users/delete.html", {"password_form": password_form})
 
 
-@login_required
+@login_message_required
 def profile_update(request):
     user_ = get_user_model().objects.get(pk=request.user.pk)
-    #current_user = user_.profile_set.all()[0]
+    # current_user = user_.profile_set.all()[0]
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=user_)
         if form.is_valid():
@@ -158,17 +164,18 @@ def profile_update(request):
     }
     return render(request, "users/profile_update.html", context)
 
-@login_required
+
+@login_message_required
 def follow(request, pk):
     # 프로필에 해당하는 유저를 로그인한 유저가!
     user = get_object_or_404(get_user_model(), pk=pk)
     if request.user == user:
-        messages.warning(request, '스스로 팔로우 할 수 없습니다.')
-        return redirect('users:detail', pk)
+        messages.warning(request, "스스로 팔로우 할 수 없습니다.")
+        return redirect("users:detail", pk)
     if request.user in user.followers.all():
-    # (이미) 팔로우 상태이면, '팔로우 취소'버튼을 누르면 삭제 (remove)
+        # (이미) 팔로우 상태이면, '팔로우 취소'버튼을 누르면 삭제 (remove)
         user.followers.remove(request.user)
     else:
-    # 팔로우 상태가 아니면, '팔로우'를 누르면 추가 (add)
+        # 팔로우 상태가 아니면, '팔로우'를 누르면 추가 (add)
         user.followers.add(request.user)
-    return redirect('users:detail', pk)
+    return redirect("users:detail", pk)
