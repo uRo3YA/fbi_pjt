@@ -45,13 +45,13 @@
     </div> 
    
 </div>
-{% if request.user.is_authenticated %}
+
 <!-- 리뷰 게시글 -->
 <div class="text-end my-3">
     <a href="{% url 'reviews:review_create' info.pk %}" class="btn btn-primary">리뷰 작성</a>
 </div>
 <!--슈퍼 유저인지 확인-->
-
+{% if request.user.is_superuser %}
 <!--가게 정보 수정 및 삭제-->
 <div class="text-end my-3">
     <a href="{% url 'Restaurant:update' info.pk %}" class="btn btn-primary">가게 정보 수정</a>

@@ -2,8 +2,9 @@
 {% load django_bootstrap5 %}
 {% load static %}
 {% block body %}
-{% if request.user.is_authenticated %}
+{% if request.user.is_superuser %}
 <a class="btn btn-primary my-3 float-right" href="{% url 'Restaurant:create' %}">가게 작성하기</a>
+{% else %}
 {% endif %}
 <div class="container d-flex row">
     {% for content in contents %}

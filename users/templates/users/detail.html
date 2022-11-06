@@ -17,8 +17,8 @@
                             <table style="color:black; margin-left:10px;">
                                 <tr>
                                     <td>
-                                        {% if request.user.image %}
-                                        <img src="{{ request.user.image.url }}" alt="" style="width: 100px; height: 100px;">
+                                        {% if user.image %}
+                                        <img src="{{ user.image.url }}" alt="" style="width: 100px; height: 100px;">
                                         {% else %}
                                         <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 100px; height: 100px;">
                                         {% endif %}
@@ -115,6 +115,12 @@
                     {% for  a in user.followers.all %}
                     <p>
                         <a class="text-decoration-none" href="{% url  'users:detail' a.id %}">
+                                        {% if a.image %}
+                                        <img src="{{ a.image.url }}" alt="" style="width: 32px; height: 32px;">
+                                        {% else %}
+                                        <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 32px; height: 32px;">
+                                        {% endif %}
+                                
                             {{ a.full_name }}</a>
                     </p>
                     {% endfor %}
@@ -136,6 +142,11 @@
                     {% for  b in follower_list %}
                     <p>
                         <a class="text-decoration-none" href="{% url  'users:detail' b.id %}">
+                            {% if b.image %}
+                            <img src="{{ b.image.url }}" alt="" style="width: 32px; height: 32px;">
+                            {% else %}
+                            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 32px; height: 32px;">
+                            {% endif %}
                             {{ b.full_name }}</a>
                     </p>
                     {% endfor %}
