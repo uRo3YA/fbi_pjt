@@ -120,7 +120,7 @@
                           <div class="d-flex  justify-content-between">
                               <h6 class="mx-4 flex-fill">{{ comment.content }} </h6>
                               <div class="commet-btn">
-                                  {% if request.user == comment.user %}
+                                  {% if request.user == comment.user or request.user.is_superuser %}
                                   <form action="{% url 'reviews:comment_delete' comment.review.pk comment.pk %}" method="POST">
                                       {% csrf_token %}
                                       <button class="float-end btn btn-dark  btn-sm ">DEL</button>
