@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/2035/2035012.png">
     {% bootstrap_css %}
     {% block css %}{% endblock css %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -18,11 +19,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     {% block script %}{% endblock script %}
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-white bg-white py-0 sticky-top opacity-75">
+    <nav class="navbar navbar-expand-lg navbar-white bg-white py-0 sticky-top opacity-75"
+        style="box-shadow: 1px 1px 0 0px #dddddd;">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'root' %}">
                 <img src="https://cdn-icons-png.flaticon.com/512/2035/2035012.png" alt="" width="30px">
@@ -45,7 +52,7 @@
                     <div class="search-box">
                         <form action="{% url 'Restaurant:search' %}" method="post">
                             {% csrf_token %}
-                            <input class="search-txt" type="text" placeholder=" 맛집 단속" size="20" name="q" value="{{q}}">
+                            <input class="search-txt" type="text" placeholder=" 맛집 단속" size="15" name="q" value="{{q}}">
                             <button class="search-btn" type="submit" maxlength="50">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -76,6 +83,35 @@
 
     </nav>
 
+    <script>
+        var div2 = document.getElementsByClassName("search-txt");
+
+        function handleClick(event) {
+            console.log(event.target);
+            // console.log(this);
+            // 콘솔창을 보면 둘다 동일한 값이 나온다
+
+            console.log(event.target.classList);
+
+            if (event.target.classList[1] === "clicked") {
+                event.target.classList.remove("clicked");
+            } else {
+                for (var i = 0; i < div2.length; i++) {
+                    div2[i].classList.remove("clicked");
+                }
+
+                event.target.classList.add("clicked");
+            }
+        }
+
+        function init() {
+            for (var i = 0; i < div2.length; i++) {
+                div2[i].addEventListener("click", handleClick);
+            }
+        }
+
+        init();
+    </script>
 
     <div class="container">
         {% block body %}{% endblock body %}

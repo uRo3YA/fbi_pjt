@@ -2,24 +2,48 @@
 
 {% block body %}
 
-    {% if not result %}
+{% if not result %}
 
-        <h1>검색 결과가 없습니다</h1>
 
-    {% else %}
 
-        {% for r in result.all %}
-        <div class="container"> 
-            <div class="card">
-                <div class="card-body">
-                    <h3><b>{{ r.title }}</b></h3>
-                    <br><p>{{ r.category }}&nbsp;&nbsp;<a href="{% url 'Restaurant:detail' r.id %}">자세히 보기</a></p> 
-                </div>
+
+<div class="content">
+    <img src="https://th.bing.com/th/id/OIP.gunsgZWV1yJavsb9e0C7iwHaHa?w=167&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        style="width: 5%">
+    <h1>관련된 정보를 찾지 못하였습니다.</h1>
+    <b>&nbsp;&nbsp&nbsp;&nbsp조금 더 정확한 단서가 필요합니다</b>
+    <a></a>
+    <img src="https://scontent-gmp1-1.xx.fbcdn.net/v/t1.6435-9/157697457_874279869803643_4795892811642483961_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=ykYmfLY8qPgAX-TPtlr&_nc_ht=scontent-gmp1-1.xx&oh=00_AfDLwBkNFd-3YcjMG4T1NKnGeUDq5heqyWAOthZAwDovnQ&oe=638C18C6"
+        alt="" style="height: 40%; width: 40%;">
+</div>
+{% else %}
+
+{% for r in result.all %}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3>{{ r.title }}</h3>
+            <p>                
+                <div>
+                {% if r.imgurl %}
+                <img src="{{ r.imgurl}}" alt="{{r.imgurl}}" class="card-img-top" style="height: 128px; width: 128px;">
+                {% else %}
+                <img src="https://dummyimage.com/1200x960/000000/c4c4c4" alt="image" class="card-img-top"
+                    style="height: 128px;width: 128px;">
+                {% endif %}
             </div>
-        </div>
-        <br>
-        {% endfor %}
+            </p>
+            <p>분류:{{ r.category }}&nbsp;&nbsp;
+                <br>
+                {{ r.description|truncatechars:30  }}
+                <a href="{% url 'Restaurant:detail' r.id %}"> 자세히 보기</a></p>
 
-    {% endif %}
+        </div>
+    </div>
+</div>
+<br>
+{% endfor %}
+
+{% endif %}
 
 {% endblock %}
