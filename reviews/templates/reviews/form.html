@@ -12,66 +12,79 @@
 {% block body %}
 <div class="container">
   <div class="row mt-5">
-      <div class="col-12">
-        {% if request.resolver_match.url_name == 'review_create' %}
-            <h4 style="font-weight: bold;">리뷰 작성</h4>
-        {% else %}
-            <h4 style="font-weight: bold;">리뷰 수정</h4>
-        {% endif %}
-      </div>
+    <div class="col-12">
+      {% if request.resolver_match.url_name == 'review_create' %}
+      <h4 style="font-weight: bold;"><img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAflBMVEX///8AAACioqKcnJz4+PiTk5NMTEzx8fFRUVELCwthYWFZWVkXFxfu7u7MzMyXl5fm5ubW1tYnJyff39+KiopHR0dfX18vLy/Pz89nZ2e3t7d5eXk9PT2pqak1NTWvr68aGhrExMRwcHCCgoIhISG+vr4qKip9fX10dHQ5OTmfPpWoAAAMrklEQVR4nO1d6WKyOhB1waJVBBWrWNFqtcv7v+Atmsk6hCCE4Hc5v2qNkzkQktkSer3yiNJk/9FvEpPDNFw8oOljuK4bJcfwMfCa4Ld6ccQvw9fVPsGTQ34ZRrYJpo4J9vtnuwTnrvn1Ld/FwDW7G04WGSasm3E8aBKjZML6tkdwQfuIfXu95OE4g96H1vqgt3BrrQsdggPpfmmrBx/MGJsPgg50GrBl3cBE+mNJfjGO8JBYkj+yfAWL4V3uGrxZkv99F79pxDjEcb6rsLYrfmxJvAniuwqXBy+yt4jHX2WW3tbiaxwvkIswWLpWrFYsBxK/08W1SrXjIqxqo+IfPCE4I/3sWhdLOP/bdzADuYtX13pYxC3s4bFJ9JLEw+dHnLBpc5mtGgP4NDk6NFdqhXek7mS2aADhQ+BasRpBXa0L82tn/xLBP4rgMC96Ifnr6FqnmgGuVtibkofQtUa1gzyK097v/Y9X1wrVjtc7sV+gaj2YXApeDbP6CAYnN6u2BcHPbHauPPHBKthCht7mNs1XvY0tZkg8+arxpvYy9MDEqjhO28twCAZXxdh2exkCwf6s2pPYWoZcijKtJMiI4WowWBVK8q7htfhqG4nKwIf7jH6wGgxRySYMbyZrkSkQZHP7ISpodRMVGui74wj2dwY/GOVJNmBIEhVzfQ/3yoUXfSMzURmEQo/f4vZEMpItMmBIOttrezj1c7vgQIzfQ6HCIM5IKqckEugvZriFbrRXfkwaaW8izf8XZh6lWp3CFIJGcjFD0F2b6mF5YV1K6g0aTfX6rsCp60Ou8lgwPVHJ6rUoZMh01yn/ShtplDcQtdgNE24WjbkA51cy3OX+TCO5kCFXlpDk6h6xRv38q60XtYjHXBnCHYFS9jGZxghNnWQdw2ixixNefBLvFvJ64K/mg/c912j/Ppyv5BKGYlFYEdK51/tB/p2WkpzLMEpyklBfCff7we8MbTTbc2pESU62jhMVYd//DYcV9v+oUPKSSc5jiEpWesCuMOBdqzxHQtCDx23AvSFfpI9IlhligilgNlnoGtFnfmoiCmH4cbuQgfJwGir5VsBQq/vSy7/wDOD1ICpyyBszvzHxC4N4L39Hrp2nT+aWYjgWr9YXYXgUW0m5qxRl+CbdUhjLMfvXe3oKBBveC07pN/v+E/6/ESS9joWPRQxjvu3a8wUjA7oQ5/KjNB8GmKgXSRSLUbzT/6FLKqvYZYU8omTfE242SM5j6DE9DrdBsWAXjBnCnAcwzAgFIfsHcwhYxxtFFHev2LSFGGmMIF9ZKkveHug/1iA5d7Xwf2njW/KNZRf5Sho2Tg9Sl9xq4bF+d+J12QjrJlvWlLvIhrZQOuuxayUpeaCS81d89hzfJha67olasYF5FD4JthFTJHuC2aelZBgwipINzAhKJgu7eDNBZS4GqbFpfKpJj0W+JIIcqWzqpINUMv5o15O/X/tUDaV4k5m3QgzxM4/5nzBKMeNELyQnWWe1BUAxHo/jSZ5WICE5r89wExRfG67W7HM8/iSiNkiYkE2HnOHEFnbEvfHJxZtkSvYRyVrLG1lR1UkAW/ZV4zhRG6GGPJ1ROG/0RDvH4kCIQSFcCB1DboZgUHrYIY3UwAqytwav/YO7iDDE/WCk+wMvWetbID/uK2rFSKNPuZGHNOqjNdSgEDfQQA80eYtKNvItejnWtxImGCONlOcFtWBRf5ZULU34K0naozW7W0wy76PqGB6xHysDcIM0UqJWqCj0npALlo1IP75cPn3WBRrAwh4SQbKOITb+lFQQZvsLY+yGEGuEhWB9UhLy3vPIb0IPinbRDHyhkjqG79iP5TQ47kHJoQxkKsV39sAzF+7o3HTZgZJYgASV/M410DFk5nyaoj/mVfoztU5s4pZjHWzNTpnLpcxHPRYWFOZe+IDFM1Elvw0ZwkP8mZlaoKMyPRBam6z7E1lfcmcavagel1PDgKVoUMn8dKhd8W9fQsQjSpTvb7j5LEt4to+ZibFX14FUFYWmlNjNRoBOpjclz/mS9dHESMgUrQYDNPNyGnJJJ+8aojH4KE0NRKFrDwW+5EepVsm25Q91BGlsoRRaxtAXGM2OR9HaK0reYWgZQ2Hv5iibPITgzyP7dFrG8MTYfEOsjYtBGSQeFbSMIR2lU37yoNPPPzBKSRXaXrpZ83tc7KGiu7Yx7KX7yQuSt9+tJ/vHajJax/Bvcin170K0kGHN6Bg+PyhDYjzY2lvrDsRF/oB4vMutoXZAFtM99ZUdHCJgFWBDJHS4tquUvTrArh2waMQjtl97QU35iEuMuTorwQZOQCqLb7Lc24+7wwTqxYIlXW/pRS77vNy/NInPnEt6fK0idc8VMtxrFrXVKZaBGRqBUoPxOIjb5XKbrLpIzfVVKqVAzwbT18dYheIw1akLN0LcHXElMfRei39iDGH9C9A0QAMQ55pVjUc7JHKWaHuucfybQ9ABzZg9hMkZK7j25mGcjJsBrFBCvJ6P7K8fl53E4dz9rnTInHKPoc8vEiY7LdoNyMexxYKf7JZm22vaDJ9UWjGvlM+uJe7HWGXADaMuG79I2DtxrkHAnEJG44rPw7g5765ukJQxqR3iCzZe/o2jHcDWv5cs8IsEluJvDN/7dQa5YuERQGlBZhgHfOlwwSKR3lV4sRRTIuV8BVuXjAA5pUBcJA5FiwTEXiwxfK2PIVF0L3oSxYsEHJPQeoZw3wZC2Y/BIvE0DGFq2XFbeyYmob6nYYiUr5otEs/CECnuNFwk2sPQW20190Tdj2fqSbSCobeNwU+fHnGacqBiaVyH0AKG/kjcljhG5g9fiiWU8CTcMxyo2y5flVVcinqV8SRcM/TxSK5cSSEW93KeRJR7YHlKbrNjhou8SJY0UfKbB4VFQhPSJM3cMkRr5+8QtpDwOYRPQwmzNjDUvlWALxLgnEFpkWg3Q36bzexndz3tBjleEV0NN/Ic1G6GbPr4pdmQiCsuZDoBD3WRaDVD9nAJVSsLGqTniujv/gSySLSaIT2IWNoOw3bockMy/JtDsdRom+dSOs2o+w/BBqjlfQPuGML8iBxSAzem8hF6GdwxhLgLNvbeNN+VhTOGMEjRdxbA/FFHRZIzhrBBB61vhJdS5B9yYw5nDOFZw4OBJM1kcG5XIZwxhNQt3jHs9atBBWcMQy3DYS7DKDQ9hNy196QPRQ9yGZpXgLhe8a0zdG61dQw7hh3DZ2Y4MUL/wzXDgZZhnMuw55mCtHfGEOpT8SA+yRHOalDBGUNwH/BSeOLm6w96NYMzhpAu+1a/KviyJNx5wHDMCfYzeEjrqMVzxxDcB+RIZg8CNXVUArljyG9QkQAx01p2jjmMJsIwlY88YxFubBaKRmEOwF2aj4SPDhnS8uW9OBhpuQx6TJBxgNS599Tj991wMwpXHo8uJPkMJTPNudX2h4glDzfpTR9vzqUt8KXiqRgGwgsGZ+upeE7WFo0HPw/DIF7jijIsk6v6u2dhGKAHZ6k4KGv+kzDEzuPOwVpaLrf9WQ7g+M/w3mLpkKFfbjeRNFSDPAAFT/zogKH3m88GRbX31zXPsDTBihSbZygcIfr7krfHSTh+u8pmg8YZcpPM61XjO3grrtytSqq0aYasPGFTmP7kDraq4Ao3zZCaMUapQVZp8fi2rYYZ0vIE7ChLBPSwTHoTo3jEA0r8jiMZoRvvCaKExiEm6mKBgpJNA0ly5AhkNys+2NbmJQigOphvEkOo5FBPonZjtUEMTfcmIQkwTmFjUcsZwpgrE0OD/RXkY8sZwmNYpjcpwN9yhuT4EPz48RzAfScKt5whcSpKRQlPRGMyOYne04RKnijOlBOG5GOpNyXDTYM9CrjL5KveFPnm+RiWRcewIjqGBugYFqFjWBH1M5S8p3y48Z5qYNjyyr0mGbqx2jqGGDqGHcOmGd6K6kptMtjeS/Ug7r01rdy7OGHoE5SSIf3GNwVp73qns310DCuiY9gAOoYV0QKGYSMMD0NDl6d+hNNGGLYAHcOOYcfQPTqGHcMChlPz3Up1439g03QMK6Jj2AA6hhXRMTQAOSYifOSVlBnaz/C58oePoGNYhI5hRXQMDdAxLIJlhqQ03+XLLkl9ai2n2yEgW0JLFZTWDHKR0XPhagDsCXH3CkE4+q1EaXkpwENUyxmPDwGOZ7T13lsfXgbj6l2XdAuLtVFEN1O6eddNAAf5Lq11Qbf19GNL07UOR7r9zeLbkrgdseM493hxGxgl3GHh9gjqT7RuDFanAXcvgmSw/GbmElvTLcFwK+DjODkm2MC7tVcvDvl9IUdPWMC18BAMS/gYNGYSR2my/yjWqEZMDtPwUUvmP7e1173f5Ho2AAAAAElFTkSuQmCC"
+          style="width: 3.5%"> 리뷰
+        작성</h4>
+      {% else %}
+      <h4 style="font-weight: bold;">리뷰 수정</h4>
+      {% endif %}
     </div>
-    <div class="row-mt-5">
-      <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="card" style="width: 100%;">
-          <!--제목-->
-              <div class="card-header" style="padding: 0rem 0.2rem">
-                    <div class="md-form form-group" style="margin-top: 8.5px;">
-                        <div style="padding: 0 5.5px;">
-                        <!-- <label for="{{ form.title.id_for_label }}"
+  </div>
+  <div class="row-mt-5">
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card" style="width: 100%;">
+        <!--제목-->
+        <div class="card-header" style="padding: 0rem 0.2rem">
+          <div class="md-form form-group" style="margin-top: 8.5px;">
+            <div style="padding: 0 5.5px;">
+              <!-- <label for="{{ form.title.id_for_label }}"
                             class="col-sm-2 control-label">{{ form.title.label }}</label> -->
-                            {{ review_form.title }}
-                        </div>
-                      </div>
-                </div>
-            <!--내용-->
-            {{ review_form.content }}
+              {{ review_form.title }}
+            </div>
           </div>
         </div>
-        <div class="card-footer" style="padding-left: 0px; margin-top:18px;">
-          <div class="form-group">
-              <div class="col-sm-12">
-                  {{ review_form.image }}
-              </div>
-          </div>
+        <!--내용-->
+        {{ review_form.content }}
       </div>
-        {% bootstrap_button button_type="submit" content="OK" %}
-      </form>
-        </div>
-    </div>
-    
-    <script>
-      $(document).ready(function () {
-          $('#id_content').summernote({
-              placeholder: '내용을 입력해주세요.',
-              height: 300,
-              minHeight: 300,
-              maxHeight: 300,
-              lang: 'ko-KR',
-             
-              toolbar: [
-              ['style', ['style']],
-              ['font', ['bold', 'underline', 'clear']],
-              ['color', ['color']],
-              ['para', ['ul', 'ol', 'paragraph']],
-              ['table', ['table']],
-              ['insert', ['link', 'picture', 'video']],
-              ['view', ['fullscreen', 'help']]
-              ]
-          });
-          $('p').css('margin-bottom','0')
-          $('.note-resizebar').css('display','none');
-      });
-  </script>
-{% endblock %}
+  </div>
+  <div class="card-footer" style="padding-left: 0px; margin-top:18px;">
+    <div class="form-group">
+      <div class="col-sm-12" style="display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-content: stretch;">
+        <button class="btn btn-primary" type="submit" style="
+        width: 6%;
+        font-weight: 900;
+        color: snow;
+        background: lightskyblue;
+        border-color: lightblue;
+    box-shadow: 1px 2px 4px #d3d3d3;
+    ">등록</button>
+        {{ review_form.image }}
 
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#id_content').summernote({
+      placeholder: '내용을 입력해주세요.',
+      height: 300,
+      minHeight: 300,
+      maxHeight: 300,
+      lang: 'ko-KR',
+
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'help']]
+      ]
+    });
+    $('p').css('margin-bottom', '0')
+    $('.note-resizebar').css('display', 'none');
+  });
+</script>
+{% endblock %}
