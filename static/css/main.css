@@ -159,6 +159,16 @@ h2 {
     flex-direction: column;
 }
 
+.content-inner {
+    width: 50%;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+
+.rounded {
+    filter: drop-shadow(2px 4px 6px black);
+}
+
 
 .container-fluid {
     padding: 0px;
