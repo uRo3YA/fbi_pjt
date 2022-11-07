@@ -64,8 +64,8 @@
                                 <tr>
                                     <td class="profile_title">위시리스트</td>
                                     <td class="profile_content"><a class="text-decoration-none"
-                                            href="{% url 'users:wishlist_list' user.id %}">{{
-                                            user.user_wishlist.count}}개</a></td>
+                                            href="{% url 'users:wishlist_list' user.id %}">
+                                            {{user.user_wishlist.count}}개</a></td>
                                 </tr>
                                 <tr>
                                     <td class="profile_title">팔로워</td>
@@ -80,14 +80,14 @@
                                 <tr>
                                     <td class="profile_title">작성한 글</td>
                                     <td class="profile_content"><a data-bs-toggle="modal"
-                                            data-bs-target="#review_modal">{{
-                                            user.review_set.count }}개</a></td>
+                                            data-bs-target="#review_modal">
+                                            {{user.review_set.count }}개</a></td>
                                 </tr>
                                 <tr>
                                     <td class="profile_title">작성한 댓글</td>
                                     <td class="profile_content"><a data-bs-toggle="modal"
-                                            data-bs-target="#comment_modal">{{
-                                            user.comment_set.count }}개</a></td>
+                                            data-bs-target="#comment_modal">
+                                            {{user.comment_set.count }}개</a></td>
                                 </tr>
                             </table>
                         </div>
