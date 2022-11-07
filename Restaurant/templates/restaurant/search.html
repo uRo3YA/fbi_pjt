@@ -13,8 +13,10 @@
     <h1>관련된 정보를 찾지 못하였습니다.</h1>
     <b>&nbsp;&nbsp&nbsp;&nbsp조금 더 정확한 단서가 필요합니다</b>
     <a></a>
-    <img src="https://scontent-gmp1-1.xx.fbcdn.net/v/t1.6435-9/157697457_874279869803643_4795892811642483961_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=ykYmfLY8qPgAX-TPtlr&_nc_ht=scontent-gmp1-1.xx&oh=00_AfDLwBkNFd-3YcjMG4T1NKnGeUDq5heqyWAOthZAwDovnQ&oe=638C18C6"
-        alt="" style="height: 40%; width: 40%;">
+    <div class="content-inner">
+        <img src="https://scontent-gmp1-1.xx.fbcdn.net/v/t1.6435-9/157697457_874279869803643_4795892811642483961_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=ykYmfLY8qPgAX-TPtlr&_nc_ht=scontent-gmp1-1.xx&oh=00_AfDLwBkNFd-3YcjMG4T1NKnGeUDq5heqyWAOthZAwDovnQ&oe=638C18C6"
+            alt="" style="height: 40%; width: 40%; filter: drop-shadow 2px 4px 6px black;" class="rounded w-100">
+    </div>
 </div>
 {% else %}
 
@@ -23,8 +25,8 @@
     <div class="card">
         <div class="card-body">
             <h3>{{ r.title }}</h3>
-            <p>                
-                <div>
+            <p>
+            <div>
                 {% if r.imgurl %}
                 <img src="{{ r.imgurl}}" alt="{{r.imgurl}}" class="card-img-top" style="height: 128px; width: 128px;">
                 {% else %}
@@ -35,8 +37,9 @@
             </p>
             <p>분류:{{ r.category }}&nbsp;&nbsp;
                 <br>
-                {{ r.description|truncatechars:30  }}
-                <a href="{% url 'Restaurant:detail' r.id %}"> 자세히 보기</a></p>
+                {{ r.description|truncatechars:30 }}
+                <a href="{% url 'Restaurant:detail' r.id %}"> 자세히 보기</a>
+            </p>
 
         </div>
     </div>
