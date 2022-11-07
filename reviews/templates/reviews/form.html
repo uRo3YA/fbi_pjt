@@ -43,24 +43,13 @@
   </div>
   <div class="card-footer" style="padding-left: 0px; margin-top:18px;">
     <div class="form-group">
-      <div class="col-sm-12" style="display: flex;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-      align-content: stretch;">
-        <button class="btn btn-primary" type="submit" style="
-        width: 6%;
-        font-weight: 900;
-        color: snow;
-        background: lightskyblue;
-        border-color: lightblue;
-    box-shadow: 1px 2px 4px #d3d3d3;
-    ">등록</button>
-        {{ review_form.image }}
-
-      </div>
+        <div class="col-sm-12">
+            {{ review_form.image }}
+        </div>
     </div>
-  </div>
-  </form>
+</div>
+  {% bootstrap_button button_type="submit"  id="detail_btn" content="등록" %}
+</form>
 </div>
 </div>
 
