@@ -46,7 +46,6 @@ h2 {
     font-size: 20px;
 }
 
-
 .clicked {
     height: 30px;
     margin-top: 0.2px;
@@ -206,9 +205,9 @@ h2 {
     /* height: 38px; */
     /* margin-top: 10px;
     margin-left: -0.5px; */
-  }
+}
 
-  .form-control {
+.form-control {
     display: block;
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
@@ -227,4 +226,4 @@ h2 {
     -o-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-  }
+}
