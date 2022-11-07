@@ -3,29 +3,7 @@
 {% load static %}
 {% block body %}
 
-<<<<<<< HEAD
-<div class="con py-5 px-5" style="background-color: rgb(255,255,255)">
-    <div class="row mt-5 text-center justify-content-center">
-        <h2 class="my-5">{{ user.username }}님의 프로필</h2>
-        <div>
-            {% if profile.image %}
-            <img src="{{ profile.image.url }}" alt="" style="width: 100px; height: 100px;">
-            {% else %}
-            <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="" style="width: 100px; height: 100px;">
-            {% endif %}
-            <div>
-            <br><a href="{% url 'users:profile_update' %}" class='btn btn-outline-success'>프로필 이미지 수정</a>
-        </div>
-        </div>
-        <p class="mb-4">이름 :
-            {{ user.full_name }}</p>
-        <p class="mb-4">이메일 :
-            {{ user.email }}</p>
-        <div class="d-flex text-start justify-content-evenly">
-            <div class="mb-4">
-                <h4 class="fw-bold">작성한 글</h4>
-                <p class="text-muted">{{ user.review_set.count }}개를 작성하였습니다.</p>
-=======
+
 <div class="container">
     <div style="margin-top: 5rem !important;">
         <div class="col-12">
