@@ -10,17 +10,18 @@
 <div class="d-flex justify-content-between">
     <div class="text-black ms-5">
         <b>
-            <h2 style="margin-top: 25px; margin-bottom: -8px;"> {% if request.user.is_authenticated %}
-                {% if request.user in info.wishlist.all %}
-                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star-fill"></i>
-                {% else %}
-                <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
-                {% endif %}
+            <h4 style="margin-top: 25px; margin-bottom: -8px;">
+                 {% if request.user.is_authenticated %}
+                    {% if request.user in info.wishlist.all %}
+                    <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star-fill"></i>
+                    {% else %}
+                    <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
+                    {% endif %}
                 {% else %}
                 <i id="wish-btn" data-info-id="{{ info.pk }}" class="bi bi-bookmark-star"></i>
                 {% endif %}
                 <span id="wish-count">{{ info.wishlist.count }}</span>&nbsp;&nbsp;&nbsp;&nbsp;{{info.title}}
-            </h2>
+            </h4>
         </b>
         <hr class="one">
         <p class="mt-5"><b><img src="https://cdn-icons-png.flaticon.com/512/1483/1483336.png" style="width: 3%">
